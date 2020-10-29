@@ -28,7 +28,7 @@ namespace ThaniyasApp.Helper
 
     public class Config
     {
-        private static ClientAppSettings _myConfiguration;
+        private static readonly ClientAppSettings _myConfiguration;
         public static string ApiUrl
         {
             get; set;

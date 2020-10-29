@@ -24,10 +24,10 @@ var PlowingDetails = function (_a) {
         dispatch(Plowing_1.storePlowingData(plowingData.plowingInput));
     };
     var handleLandChange = function (event) {
-        plowingData.plowingInput.landDetailsId = event.target.value;
+        plowingData.plowingInput.landDetailId = event.target.value;
     };
     var handlePLChange = function (event) {
-        plowingData.plowingInput.partitionLandDetailsId = event.target.value;
+        plowingData.plowingInput.partitionLandDetailId = event.target.value;
     };
     var handleTypeofPlowChange = function (event) {
         plowingData.plowingInput.typeofPlowing = event.target.value;

@@ -7,6 +7,8 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getHarvestList, deleteHarvest } from '../../../store/actions/Harvestings';
 import { RouteComponentProps, withRouter } from 'react-router';
+import Confirm from '../../common/Confirm';
+import { getLandDetailList } from '../../../store/actions/LandDetail';
 
 interface Props extends RouteComponentProps { }
 
@@ -20,20 +22,32 @@ interface IWeedRemoveProps {
 const Harvesting: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatch, harvestData, history }) => {
   React.useEffect(() => {
     dispatch(getHarvestList());
+    dispatch(getLandDetailList());
   }, []);
   const [showPopover, setShowPopover] = useState(false);
   const [Harvest, setHarvest] = useState();
   const onEditHarvestClick = (id:any) => {
     setHarvest(id);
     history.push("/harvestingEditPage/" + id);
+    history.push("/harvestingEditPage/" + id)
   }
 
   const [showAlert1, setShowAlert1] = useState(false);
-  const [weedRemoveDel, setWeedRemoveDel] = useState();
+  const [idDel, setDel] = useState();  
+  
+  const [showConfirm, setShowConfirm] = useState(false);
   const onDeleteHarvestClick = (id: any) => {
+    setDel(id);
+    setShowConfirm(true);
+  }
+  const [deleteProcess, setDeleteProcess] = useState(false);
+  function processDelete() {
+    setDeleteProcess(true);
+    dispatch(deleteHarvest(idDel));
+  }
+  if (deleteProcess && !harvestData.isFormSubmit) {
+    setDeleteProcess(false);
     setShowAlert1(true);
-    setWeedRemoveDel(id);
-    dispatch(deleteHarvest(id));
   }
 
   const [HarvestData, setHarvestData] = useState([]);
@@ -45,10 +59,8 @@ const Harvesting: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatc
   const HarvestList: any = [];
   HarvestItems.forEach((HarvestItems: any) => HarvestList.push(
     <IonItem key={HarvestItems.id}>
-      <IonLabel> {HarvestItems.cost} </IonLabel>
-      <a href={"/harvestingEditPage/" + HarvestItems.id} >
-        <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditHarvestClick(HarvestItems.id)}></img>
-      </a>
+      <IonLabel> {HarvestItems.cost} </IonLabel>      
+        <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditHarvestClick(HarvestItems.id)}></img>      
 
       <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeleteHarvestClick(HarvestItems.id)} ></img>
     </IonItem>));
@@ -66,7 +78,7 @@ const Harvesting: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatc
               <label className="lbl"> Harvest Details </label>
               <a onClick={() => {
 
-                history.push("/harvestDetails")
+                history.push("/harvestingEditPage/0")
               }}
 
                 className="add-btn">  ADD  </a>
@@ -81,6 +93,7 @@ const Harvesting: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatc
             message={'Successfully Deleted'}
             buttons={['OK']}
           />
+          <Confirm showConfirm={showConfirm} setShowConfirm={setShowConfirm} processDelete={processDelete} message="<strong>Are you sure do you want to delete it?</strong>!!!" />   
         </div>
       </IonContent>     
     </IonPage>

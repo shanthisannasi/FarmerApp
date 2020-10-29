@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Http_1 = require("../Http");
+var Accounts_1 = require("../../store/selectors/Accounts");
 var PArtitionLandAPI = /** @class */ (function () {
     function PArtitionLandAPI() {
     }
     PArtitionLandAPI.addPartitionLand = function (input) {
+        Accounts_1.setUserForCRUD(input);
         var obj = JSON.stringify(input);
         var tObj = JSON.parse(obj);
         var url = '/api/PartitionLand/add-PartitionLand';
@@ -33,7 +35,7 @@ var PArtitionLandAPI = /** @class */ (function () {
         }
     };
     PArtitionLandAPI.getPartitionLandList = function () {
-        return Http_1.Http.axios().get('/api/PartitionLand/PartitionLand-list')
+        return Http_1.Http.axios().get('/api/PartitionLand/PartitionLand-list' + "?" + Accounts_1.getUserQueryString())
             .catch(function (e) {
             return e.response;
         });

@@ -7,19 +7,25 @@ import { getPlowingList, deletePlowing } from '../../../store/actions/Plowing';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
+import Confirm from '../../common/Confirm';
+import { getPartitionLandList } from '../../../store/actions/PartitionLand';
+import { getLandDetailList } from '../../../store/actions/LandDetail';
 
 interface Props extends RouteComponentProps { }
 
 interface IPlowingProps {
   dispatch: Dispatch<any>;
   plowingData: any;
+  LandDetailData: any;
   route: RouteComponentProps;
 }
 
 
-const Plowing: React.SFC<IPlowingProps & RouteComponentProps> = ({ dispatch, plowingData, history }) => {
+const Plowing: React.SFC<IPlowingProps & RouteComponentProps> = ({ dispatch, plowingData, LandDetailData, history }) => {
   React.useEffect(() => {
     dispatch(getPlowingList());
+    dispatch(getPartitionLandList());
+    dispatch(getLandDetailList());
   }, []);
 
   const [showPopover, setShowPopover] = useState(false);
@@ -32,10 +38,19 @@ const Plowing: React.SFC<IPlowingProps & RouteComponentProps> = ({ dispatch, plo
 
   const [showAlert1, setShowAlert1] = useState(false);
   const [weedRemoveDel, setWeedRemoveDel] = useState();
+  const [showConfirm, setShowConfirm] = useState(false);
   const onDeletePlowingClick = (id: any) => {
-    setShowAlert1(true);
     setWeedRemoveDel(id);
-    dispatch(deletePlowing(id));
+    setShowConfirm(true);
+  }
+  const [deleteProcess, setDeleteProcess] = useState(false);
+  function processDelete() {
+    setDeleteProcess(true);
+    dispatch(deletePlowing(weedRemoveDel));
+  }
+  if (deleteProcess && !plowingData.isFormSubmit) {
+    setDeleteProcess(false);
+    setShowAlert1(true);
   }
 
   const [PlowingData, setPlowingData] = useState([]);
@@ -66,7 +81,7 @@ const Plowing: React.SFC<IPlowingProps & RouteComponentProps> = ({ dispatch, plo
               <label className="lbl"> Plowing Details </label>
               <a onClick={() => {
 
-                history.push("/plowingDetails")
+                history.push("/plowingEditPage/" + 0)
               }}
 
                 className="add-btn">  ADD  </a>
@@ -81,6 +96,7 @@ const Plowing: React.SFC<IPlowingProps & RouteComponentProps> = ({ dispatch, plo
             message={'Successfully Deleted'}
             buttons={['OK']}
           />
+          <Confirm showConfirm={showConfirm} setShowConfirm={setShowConfirm} processDelete={processDelete} message="<strong>Are you sure do you want to delete it?</strong>!!!" />          
         </div>
       </IonContent>      
     </IonPage>
@@ -88,10 +104,10 @@ const Plowing: React.SFC<IPlowingProps & RouteComponentProps> = ({ dispatch, plo
 };
 
 const mapStateToProps = (state: any) => {
-  const { plowingData } = state;
+  const { plowingData, LandDetailData } = state;
 
   return {
-    plowingData
+    plowingData, LandDetailData
   };
 };
 

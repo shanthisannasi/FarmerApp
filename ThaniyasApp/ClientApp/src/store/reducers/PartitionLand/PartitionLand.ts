@@ -18,7 +18,7 @@ const initialPartitionLandData = {
   partitionLandInput: {
     landDirection: "",
     areaSize: "",
-    landDetailsId: 0,
+    landDetailId: 0,
     ID: 0
   },
   isLandId: true,

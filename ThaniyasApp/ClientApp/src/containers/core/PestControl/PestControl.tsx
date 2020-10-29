@@ -1,12 +1,14 @@
-﻿import { IonItem, IonContent, IonPage, IonList, IonLoading, IonSelectOption, IonLabel, IonSelect } from '@ionic/react';
+﻿import { IonItem, IonContent, IonPage, IonList, IonLoading, IonSelectOption, IonLabel, IonSelect, IonAlert } from '@ionic/react';
 import React, { useState } from 'react';
 //import './Reg.scss';
 import Header from '../../common/Header';
 import Footer from '../../common/Footer';
-import { getPestControlList } from '../../../store/actions/PestControl';
+import { getPestControlList, deletePestControl } from '../../../store/actions/PestControl';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
+import Confirm from '../../common/Confirm';
+import { getLandDetailList } from '../../../store/actions/LandDetail';
 interface Props extends RouteComponentProps { }
 
 interface IPestControlProps {
@@ -19,17 +21,29 @@ interface IPestControlProps {
 const PestControl: React.SFC<IPestControlProps & RouteComponentProps> = ({ dispatch, pestControlData, history }) => {
   React.useEffect(() => {
     dispatch(getPestControlList());
+    dispatch(getLandDetailList());
   }, []);
 
   const [showPopover, setShowPopover] = useState(false);
   const [PestControl, setPestControl] = useState();
-  const onEditSeedClick = (id:any) => {
+  const onEditClick = (id:any) => {
     setPestControl(id);
     history.push("/pestControlEditPage/" + id);
   }
-
-  const onDeleteSeedClick = () => {
-    alert("DELETE");
+  const [showAlert1, setShowAlert1] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const onDeleteClick = (id: any) => {
+    setPestControl(id);
+    setShowConfirm(true);
+  }
+  const [deleteProcess, setDeleteProcess] = useState(false);
+  function processDelete() {
+    setDeleteProcess(true);
+    dispatch(deletePestControl(PestControl));
+  }
+  if (deleteProcess && !pestControlData.isFormSubmit) {
+    setDeleteProcess(false);
+    setShowAlert1(true);
   }
 
   const [showLoading, setShowLoading] = useState(true);
@@ -44,8 +58,8 @@ const PestControl: React.SFC<IPestControlProps & RouteComponentProps> = ({ dispa
   PetsControlItems.forEach((PetsControlItems: any) => PetsControlList.push(
     <IonItem key={PetsControlItems.id}>
       <IonLabel> {PetsControlItems.nameofthePestSide} </IonLabel>
-        <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditSeedClick(PetsControlItems.id)}></img>
-      <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeleteSeedClick} ></img>
+        <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditClick(PetsControlItems.id)}></img>
+      <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeleteClick(PetsControlItems.id)} ></img>
     </IonItem>));
   return (
     <IonPage>
@@ -59,7 +73,7 @@ const PestControl: React.SFC<IPestControlProps & RouteComponentProps> = ({ dispa
           <form className="form">
             <IonItem className="MLand-Lbl">
               <label className="lbl"> Pest Control Details </label>
-              <a className="add-btn" onClick={() => (setShowLoading(true) == history.push("/pestControlDetails"))}>  ADD  </a>
+              <a className="add-btn" onClick={() => (setShowLoading(true) == history.push("/pestControlEditPage/" + 0))}>  ADD  </a>
               <IonLoading
                 isOpen={showLoading}
                 onDidDismiss={() => setShowLoading(false)}
@@ -71,6 +85,13 @@ const PestControl: React.SFC<IPestControlProps & RouteComponentProps> = ({ dispa
               {PetsControlList}
             </IonList>
           </form>         
+          <IonAlert
+            isOpen={showAlert1}
+            onDidDismiss={() => setShowAlert1(false)}
+            message={'Successfully Deleted'}
+            buttons={['OK']}
+          />
+          <Confirm showConfirm={showConfirm} setShowConfirm={setShowConfirm} processDelete={processDelete} message="<strong>Are you sure do you want to delete it?</strong>!!!" />   
         </div>
       </IonContent>      
     </IonPage>

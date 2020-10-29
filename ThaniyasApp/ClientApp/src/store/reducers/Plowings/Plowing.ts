@@ -14,8 +14,8 @@ const initialPlowingData = {
     statusValue: true,
   },
   plowingInput: {
-    landDetailsId: 0,
-    partitionLandDetailsId: 0,
+    landDetailId: 0,
+    partitionLandDetailId: 0,
     ID: 0,
     plowingDate: "",
     typeofPlowing: "",

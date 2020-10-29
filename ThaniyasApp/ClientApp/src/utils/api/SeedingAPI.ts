@@ -1,8 +1,10 @@
 ﻿import { Http } from "../Http";
 import { AxiosPromise } from "axios";
+import { getUserQueryString, setUserForCRUD } from "../../store/selectors/Accounts";
 
 export class SeedingAPI {
   public static addSeed(input: any) {
+    setUserForCRUD(input);
     var obj = JSON.stringify(input);
     var tObj = JSON.parse(obj);
     var url = '/api/Seed/add-Seed';
@@ -32,7 +34,7 @@ export class SeedingAPI {
   }
 
   public static getSeedList() {
-    return Http.axios().get('/api/Seed/seed-list')
+    return Http.axios().get('/api/Seed/seed-list' + "?" + getUserQueryString())
       .catch((e) => {
         return e.response;
       }) as AxiosPromise<any>;

@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Http_1 = require("../Http");
+var Accounts_1 = require("../../store/selectors/Accounts");
 var SaleAPI = /** @class */ (function () {
     function SaleAPI() {
     }
     SaleAPI.addSale = function (input) {
+        Accounts_1.setUserForCRUD(input);
         var obj = JSON.stringify(input);
         var tObj = JSON.parse(obj);
         var url = '/api/Sale/add-Sale';
@@ -32,7 +34,7 @@ var SaleAPI = /** @class */ (function () {
         }
     };
     SaleAPI.getSaleList = function () {
-        return Http_1.Http.axios().get('/api/Sale/sale-list')
+        return Http_1.Http.axios().get('/api/Sale/sale-list' + "?" + Accounts_1.getUserQueryString())
             .catch(function (e) {
             return e.response;
         });

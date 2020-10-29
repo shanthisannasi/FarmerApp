@@ -21,12 +21,12 @@ var initialHarvestData = {
         statusValue: true,
     },
     harvestInput: {
-        landDetailsId: 0,
-        partitionLandDetailsId: 0,
+        landDetailId: 0,
+        partitionLandDetailId: 0,
         ID: 0,
         date: "",
         cost: "",
-        nOofLabours: "",
+        noOfLabours: "",
         labourCost: "",
     },
 };

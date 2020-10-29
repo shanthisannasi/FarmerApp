@@ -1,9 +1,11 @@
 ﻿
 import { Http } from "../Http";
 import { AxiosPromise } from "axios";
+import { getUserQueryString, setUserForCRUD } from "../../store/selectors/Accounts";
 
 export class LandDetailsAPI {
   public static addLandDetails(input: any) {
+    setUserForCRUD(input);
     var obj = JSON.stringify(input);
     var tObj = JSON.parse(obj);
     var url = '/api/LandDetails/add-LandDetail';
@@ -33,8 +35,9 @@ export class LandDetailsAPI {
     }
   }
   public static getLandDetailsList() {
-    return Http.axios().get('/api/LandDetails/get-LandDetails')
+    return Http.axios().get('/api/LandDetails/get-LandDetails' + "?" + getUserQueryString())
       .then(response => {
+        console.log(response);
         return response;
       }).catch((e: any) => {
         console.log("Error in post" + e);

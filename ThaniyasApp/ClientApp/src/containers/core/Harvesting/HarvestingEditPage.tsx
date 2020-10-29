@@ -8,6 +8,8 @@ import { getHarvestById, storeHarvestData } from "../../../store/actions/Harvest
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { getLandDetailList } from '../../../store/actions/LandDetail';
+import { validateHarvesting } from '../../common/FormValidationRules';
 
 interface IHarvestAddEditProps {
   //partitionLandInput: any;
@@ -19,18 +21,18 @@ interface IHarvestAddEditProps {
   match: any;
   params: any;
   LandDetailData: any;
+  getLandDetails: any;
 
 }
 
 interface IHarvestLandAddEditState {
- // harvestData: any;
-  landDetailsId: any;
-  partitionLandDetailsId: any;
-  cost: any;
-  nOofLabours: 0;
-  labourCost: 0;
-  id: 0;
-  date: any;
+  input: any;
+  isFormSubmited: boolean;
+  isEdit: boolean;
+  selectedLand: any;
+  partitionList: any;
+  isSubmitting: boolean;
+  errors: any;
 }
 
 class HarvestingEditPage extends React.Component<IHarvestAddEditProps, IHarvestLandAddEditState> {
@@ -38,73 +40,151 @@ class HarvestingEditPage extends React.Component<IHarvestAddEditProps, IHarvestL
   constructor(props:any) {
     super(props);
 
-    this.state = {     
-     // harvestData: {},
-      landDetailsId: 0,
-      partitionLandDetailsId: 0,
-      cost: null,
-      nOofLabours: 0,
-      labourCost: 0,
-      id: 0,
-      date: new Date()
+    this.state = {
+      input: this.inputInit,
+      isFormSubmited: false,
+      isEdit: false,
+      selectedLand: {},
+      partitionList: [],
+      isSubmitting: false,
+      errors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleOnsubmit = this.handleOnsubmit.bind(this);
   }
 
+
+  inputInit = {
+  // harvestData: {},
+  landDetailId: 0,
+  partitionLandDetailId: 0,
+  cost: 0,
+  noOfLabours: 0,
+  labourCost: 0,
+  id: 0,
+  date: new Date()
+};
+
+  
   componentWillMount() {
-    this.props.getHarvestById1(this.props.match.params.id);
+    var id = this.props.match.params.id;
+    if (this.props.LandDetailData.Landitems) {
+      if (this.props.LandDetailData.Landitems.length === 0) {
+        this.props.getLandDetails();
+      }
+    }
+    if (id && id !== null && id !== 0 && id !== "0") {
+      this.setState({ isEdit: true });
+    }
+    else {
+      this.setState({ isEdit: false });
+    }
   }
+
   componentWillReceiveProps(newProps: any) {
+
     if (!newProps.harvestData.isFormSubmit) {
       window.location.href = '/harvestings';
     }
-    if (newProps.harvestData.HarvestItems) {
+    if (!this.state.isEdit) {
+      this.setState({ input: this.inputInit });
+    }
+    else if (this.state.isEdit && newProps.harvestData.HarvestItems) {
+      var item = newProps.harvestData.HarvestItems.find((x: { id: number; }) => x.id === parseInt(this.props.match.params.id));
+      var land = this.getLand(item.partitionLandDetail.landDetailId);
+
       this.setState({
-        landDetailsId: newProps.harvestData.HarvestItems.selectedLandDetailId,
-        partitionLandDetailsId: newProps.harvestData.HarvestItems.selectedPartLandDetailId,
-        cost: newProps.harvestData.HarvestItems.cost,
-        nOofLabours: newProps.harvestData.HarvestItems.nOofLabours,
-        labourCost: newProps.harvestData.HarvestItems.labourCost,
-        id: newProps.harvestData.HarvestItems.id,
-        date: newProps.harvestData.HarvestItems.date
-      })
+        input: {
+
+          ...item,
+          landDetailId: item.partitionLandDetail.landDetailId,
+          partitionLandDetailId: item.partitionLandDetailId,
+        },
+        selectedLand: land,
+        partitionList: land.partitionLandDetails
+      });
+    }
+  }
+  setDate(dateValue: any) {
+    if (this.state) {
+      const { input } = this.state;
+      this.setState({
+        input: {
+          ...input,
+          date: dateValue
+        }
+      });
     }
   }
 
+
   handleOnsubmit(event: any) {
     event.preventDefault();
-    this.props.storeHarvestData1(this.state);
+    var errors = validateHarvesting(this.state.input);
+    this.setState({ isSubmitting: true, errors: errors });
+    this.processSave(this.state.input, errors, true);
   }
 
-handleChange(event : any) {
-  const { name, value } = event.target;
-  if (this.state) {
-    this.setState({
-      ...this.state,
-      [name]:value,
-    });
+  processSave(values: any, errors: any, isSubmit: boolean) {
+    console.log(values);
+    if (Object.keys(errors).length === 0 && isSubmit) {
+      this.setState({ isFormSubmited: true });
+      this.props.storeHarvestData1(values);
+    }
   }
-}
-
+  getLand(id: any) {
+    if (this.props.LandDetailData.Landitems.length > 0) {
+      var item = this.props.LandDetailData.Landitems.find((x: { id: any; }) => x.id === id);
+      return item;
+    }
+    return null;
+  }
   handleLandChange = (event: any) => {
-    this.setState({
-      landDetailsId: event.target.value
-    });
+    var errors = validateHarvesting(this.state.input);
+    var selectedLand = this.getLand(event.target.value);
+    if (this.state) {
+      const { input } = this.state;
+      this.setState({
+        input: {
+          ...input,
+          landDetailId: event.target.value
+        },
+        selectedLand: selectedLand,
+        partitionList: selectedLand.partitionLandDetails
+        , errors: errors
+      });
+    }
   }
 
   handlePLChange = (event: any) => {
-    this.setState({
-      partitionLandDetailsId: event.target.value
-    });
+    var errors = validateHarvesting(this.state.input);
+    if (this.state) {
+      const { input } = this.state;
+      this.setState({
+        input: {
+          ...input,
+          partitionLandDetailId: event.target.value
+        }
+        , errors: errors
+      });
+    }
   }
 
-  setDate(dateValue:any) {
-    this.setState({
-     ...this.state,
-      date: dateValue
-    });
+
+  handleChange(event: any) {
+    const { name, value } = event.target;
+    var errors = validateHarvesting(this.state.input);
+    if (this.state) {
+      const { input } = this.state;
+      this.setState({
+        input: {
+          ...input,
+          [name]: value
+        },
+        errors: errors
+      });
+    }
   }
 
   render() {
@@ -115,32 +195,52 @@ handleChange(event : any) {
       <IonContent className=".reg-login">
         <div className="bg-image">
           <div className="reg-head">
-            <h1>Edit Harvesting </h1>
+            {!this.state.isEdit && (
+              <h1>  Add Pest Control </h1>
+            )}
+            {this.state.isEdit && (
+              <h1>  Edit Pest Control </h1>
+            )}
           </div>
-          {this.state.id > 0 && (
           <form className="form">
             <IonRow>
               <IonCol>
                   <IonText className="reg-fields">
                     <label> Land Name </label>
-                  {this.props.harvestData.HarvestItems.landDetailName && (
-                      <IonSelect className="dropclr" onIonChange={this.handleLandChange}>
-                        {this.props.harvestData.HarvestItems.landDetailName.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.name} selected={data.id == this.props.harvestData.HarvestItems.selectedLandDetailId} > {data.name} </IonSelectOption>) })}
+                    {this.props.LandDetailData.Landitems && (
+                      <IonSelect className="dropclr" onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
+                        {this.props.LandDetailData.Landitems.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.name} selected={data.id == this.state.input.landDetailId} > {data.name} </IonSelectOption>) })}
                       </IonSelect>)}
+                    {this.state.errors.landDetailId && (
+                      <p className="help is-danger">{this.state.errors.landDetailId}</p>
+                    )}
                     <label> Partition Land Name </label>
-                    {this.props.harvestData.HarvestItems.partLandDetailName && (
-                      <IonSelect className="dropclr" onIonChange={this.handlePLChange}>
-                        {this.props.harvestData.HarvestItems.partLandDetailName.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={data.id == this.props.harvestData.HarvestItems.selectedPartLandDetailId} > {data.landDirection} </IonSelectOption>) })}
-                      </IonSelect>)}
-                    <IonRow> Date </IonRow><IonRow> <DatePicker selected={moment(this.state.date).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>
-                    Cost <input type="text" name="cost" className="input-text" onChange={this.handleChange} value={this.state.cost} />
-                    NO of Labours <input type="text" name="nOofLabours" className="input-text" onChange={this.handleChange} value={this.state.nOofLabours} />
-                    Labour Cost <input type="text" name="labourCost" className="input-text" onChange={this.handleChange} value={this.state.labourCost} />
+                    <IonSelect className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
+                      {this.state.partitionList.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={data.id == this.state.input.partitionLandDetailId} > {data.landDirection} </IonSelectOption>) })}
+                    </IonSelect>
+                    {this.state.errors.landDetailId && (
+                      <p className="help is-danger">{this.state.errors.landDetailId}</p>
+                    )}
+                    <IonRow> Date </IonRow><IonRow> <DatePicker selected={moment(this.state.input.date).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>
+                    {this.state.errors.date && (
+                      <p className="help is-danger">{this.state.errors.date}</p>
+                    )}
+                    Cost <input type="text" name="cost" className="input-text" onChange={this.handleChange} value={this.state.input.cost} />
+                    {this.state.errors.cost && (
+                      <p className="help is-danger">{this.state.errors.cost}</p>
+                    )}
+                    NO of Labours <input type="text" name="noOfLabours" className="input-text" onChange={this.handleChange} value={this.state.input.noOfLabours} />
+                    {this.state.errors.noOfLabours && (
+                      <p className="help is-danger">{this.state.errors.noOfLabours}</p>
+                    )}
+                    Labour Cost <input type="text" name="labourCost" className="input-text" onChange={this.handleChange} value={this.state.input.labourCost} />
+                    {this.state.errors.labourCost && (
+                      <p className="help is-danger">{this.state.errors.labourCost}</p>
+                    )}
                 </IonText>
               </IonCol>
             </IonRow>
             </form>
-          )}
         </div>
       </IonContent>
       <footer className="footcolor" >
@@ -157,15 +257,18 @@ handleChange(event : any) {
 }
 
 const mapStateToProps = (state: any) => {
-  const { harvestData  } = state;
+  const { harvestData, LandDetailData  } = state;
 
   return {
-    harvestData 
+    harvestData, LandDetailData
   };
 };
 
 const mapDisptchToProps = (dispatch: any) => {
   return {
+    getLandDetails: () => {
+      dispatch(getLandDetailList());
+    },
     getHarvestById1: (id: any) => {
       dispatch(getHarvestById(id));
     },

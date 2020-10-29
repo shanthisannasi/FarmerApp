@@ -1,8 +1,10 @@
 ﻿import { Http } from "../Http";
 import { AxiosPromise } from "axios";
+import { getUserQueryString, setUserForCRUD } from "../../store/selectors/Accounts";
 
 export class PlowingAPI {
   public static addPlowing(input: any) {
+    setUserForCRUD(input);
     var obj = JSON.stringify(input);
     var tObj = JSON.parse(obj);
     var url = '/api/Plowing/add-Plowing';
@@ -33,7 +35,7 @@ export class PlowingAPI {
   }
 
   public static getPlowinglList() {
-    return Http.axios().get('/api/Plowing/plowing-list')
+    return Http.axios().get('/api/Plowing/plowing-list' + "?" + getUserQueryString())
       .catch((e) => {
         return e.response;
       }) as AxiosPromise<any>;

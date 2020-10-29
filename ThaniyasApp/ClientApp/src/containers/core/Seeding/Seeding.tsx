@@ -7,6 +7,8 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getSeedList, deleteSeed } from '../../../store/actions/Seedings';
 import { RouteComponentProps, withRouter } from 'react-router';
+import Confirm from '../../common/Confirm';
+import { getLandDetailList } from '../../../store/actions/LandDetail';
 
 interface Props extends RouteComponentProps { }
 
@@ -21,6 +23,7 @@ const Seeding: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatch, 
 
   React.useEffect(() => {
     dispatch(getSeedList());
+    dispatch(getLandDetailList());
   }, []);
   const [showPopover, setShowPopover] = useState(false);
   // <IonButton onClick={() => setShowModal(false)}>Close Modal</IonButton>
@@ -39,11 +42,21 @@ const Seeding: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatch, 
   }
 
   const [showAlert1, setShowAlert1] = useState(false);
-  const [weedRemoveDel, setWeedRemoveDel] = useState();
+  const [idDel, setDel] = useState();  
+
+  const [showConfirm, setShowConfirm] = useState(false);
   const onDeleteSeedClick = (id: any) => {
+    setDel(id);
+    setShowConfirm(true);
+  }
+  const [deleteProcess, setDeleteProcess] = useState(false);
+  function processDelete() {
+    setDeleteProcess(true);
+    dispatch(deleteSeed(idDel));
+  }
+  if (deleteProcess && !seedData.isFormSubmit) {
+    setDeleteProcess(false);
     setShowAlert1(true);
-    setWeedRemoveDel(id);
-    dispatch(deleteSeed(id));
   }
 
   const [SeedData, setSeedData] = useState([]);
@@ -77,7 +90,7 @@ const Seeding: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatch, 
               <label className="lbl"> Seeding Details </label>
               <a onClick={() => {
 
-                history.push("/seedingDetails")
+                history.push("/seedEditPage/0")
               }}
 
                 className="add-btn">  ADD  </a>
@@ -92,6 +105,7 @@ const Seeding: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatch, 
             message={'Successfully Deleted'}
             buttons={['OK']}
           />
+          <Confirm showConfirm={showConfirm} setShowConfirm={setShowConfirm} processDelete={processDelete} message="<strong>Are you sure do you want to delete it?</strong>!!!" />   
         </div>
       </IonContent>     
     </IonPage>

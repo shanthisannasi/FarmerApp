@@ -29,16 +29,16 @@ var WeedRemoveDetails = function (_a) {
         dispatch(WeedRemove_1.storeWeedRemoveData(weedRemoveData.weedRemoveInput));
     };
     var handleLandChange = function (event) {
-        weedRemoveData.weedRemoveInput.landDetailsId = event.target.value;
+        weedRemoveData.weedRemoveInput.landDetailId = event.target.value;
     };
     var handlePLChange = function (event) {
-        weedRemoveData.weedRemoveInput.partitionLandDetailsId = event.target.value;
+        weedRemoveData.weedRemoveInput.partitionLandDetailId = event.target.value;
     };
     var handleCostChange = function (event) {
         weedRemoveData.weedRemoveInput.cost = event.target.value;
     };
     var handleNOLChange = function (event) {
-        weedRemoveData.weedRemoveInput.nOofLabours = event.target.value;
+        weedRemoveData.weedRemoveInput.noOfLabours = event.target.value;
     };
     var handleLCChange = function (event) {
         weedRemoveData.weedRemoveInput.labourCost = event.target.value;

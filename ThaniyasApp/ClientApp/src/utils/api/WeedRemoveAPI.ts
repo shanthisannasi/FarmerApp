@@ -1,9 +1,11 @@
 ﻿
 import { Http } from "../Http";
 import { AxiosPromise } from "axios";
+import { getUserQueryString, setUserForCRUD } from "../../store/selectors/Accounts";
 
 export class WeedRemoveAPI {
   public static addWeedRemove(input: any) {
+    setUserForCRUD(input);
     var obj = JSON.stringify(input);
     var tObj = JSON.parse(obj);
     var url = '/api/WeedRemove/add-WeedRemove';
@@ -34,7 +36,7 @@ export class WeedRemoveAPI {
   }
 
   public static getWeedRemoveList() {
-    return Http.axios().get('/api/WeedRemove/WeedRemove-list')
+    return Http.axios().get('/api/WeedRemove/WeedRemove-list' + "?" + getUserQueryString())
       .catch((e) => {
         return e.response;
       }) as AxiosPromise<any>;

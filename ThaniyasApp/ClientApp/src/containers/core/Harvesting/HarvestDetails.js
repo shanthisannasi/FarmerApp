@@ -29,18 +29,18 @@ var HarvestDetails = function (_a) {
     var _b = react_2.useState(new Date()), startDate = _b[0], setStartDate = _b[1];
     // const [partitionData, setPartitionData] = useState([]);
     var handleLandChange = function (event) {
-        harvestData.harvestInput.landDetailsId = event.target.value;
-        // var items = PLitems.filter((item: any) => item.landDetailsId == event.target.value);
+        harvestData.harvestInput.landDetailId = event.target.value;
+        // var items = PLitems.filter((item: any) => item.landDetailId == event.target.value);
         //dispatch(getPartitionLandById(Landitems.id)); 
     };
     var handlePLChange = function (event) {
-        harvestData.harvestInput.partitionLandDetailsId = event.target.value;
+        harvestData.harvestInput.partitionLandDetailId = event.target.value;
     };
     var handleCostChange = function (event) {
         harvestData.harvestInput.cost = event.target.value;
     };
     var handleNOLChange = function (event) {
-        harvestData.harvestInput.nOofLabours = event.target.value;
+        harvestData.harvestInput.noOfLabours = event.target.value;
     };
     var handleLCChange = function (event) {
         harvestData.harvestInput.labourCost = event.target.value;
@@ -69,7 +69,7 @@ var HarvestDetails = function (_a) {
             " "))); });
     //<label> Partition Land Name </label>
     //<IonSelect placeholder="Select One" className="dropclr" onIonChange={handlePLChange}>
-    //  {PLitems.filter((item:any) => item.landDetailsId == 1).map((data: any) => { return <IonSelectOption value={data.id} key={data.id} title={data.landDirection}> {data.landDirection} </IonSelectOption> })}
+    //  {PLitems.filter((item:any) => item.landDetailId == 1).map((data: any) => { return <IonSelectOption value={data.id} key={data.id} title={data.landDirection}> {data.landDirection} </IonSelectOption> })}
     //</IonSelect>
     return (React.createElement(react_1.IonPage, null,
         React.createElement(Header_1.default, null),

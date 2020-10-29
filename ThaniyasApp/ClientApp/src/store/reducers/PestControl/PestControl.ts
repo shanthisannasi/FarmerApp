@@ -14,8 +14,8 @@ const initialPestControlData = {
     statusValue: true,
   },
   pestControlInput: {
-    landDetailsId: 0,
-    partitionLandDetailsId: 0,
+    landDetailId: 0,
+    partitionLandDetailId: 0,
     ID: 0,
     pestControlDate: "",
     nameofthePestSide: "",
@@ -23,7 +23,8 @@ const initialPestControlData = {
     purpose: "",
     labourCost: "",
   },
- // isLoading: true,
+  isFormSubmit: true,
+  isLoading: true,
 }
 
 const pestControlData = (state = initialPestControlData, action: any) => {
@@ -31,21 +32,21 @@ const pestControlData = (state = initialPestControlData, action: any) => {
     case STORE_PESTCONTROL_STARTED:
       return {
         ...state,
-        isFormSubmit: false,
+        isFormSubmit: true,
         pestControlInput: action.input,
        // isLoading: true,
       };
     case STORE_PESTCONTROL_COMPLETED:
       return {
         ...state,
-        isFormSubmit: true,
+        isFormSubmit: false,
        // isLoading: false,
         // status: action.payload.status     
       };
     case STORE_PESTCONTROL_FAILED:
       return {
         ...state,
-        isFormSubmit: false,
+        isFormSubmit: true,
        // isLoading: true,
       };
     case GET_PESTCONTROL_STARTED:
@@ -65,7 +66,7 @@ const pestControlData = (state = initialPestControlData, action: any) => {
     case DELETE_PESTCONTROL_STARTED:
       return {
         ...state,
-        isFormSubmit: false,
+        isFormSubmit: true,
         pestControlInput: action.input
       };
     case DELETE_PESTCONTROL_COMPLETED:
@@ -77,7 +78,7 @@ const pestControlData = (state = initialPestControlData, action: any) => {
       };
       return {
         ...state,
-        isFormSubmit: true,
+        isFormSubmit: false,
         // status: action.payload,
         pestControlInput: action.input,
         PestControlList: PestControlList
@@ -85,6 +86,7 @@ const pestControlData = (state = initialPestControlData, action: any) => {
     case DELETE_PESTCONTROL_FAILED:
       return {
         ...state,
+        isFormSubmit: true,
         error: action.error
       };
     case GET_PESTCONTROLBYID_STARTED:

@@ -29,10 +29,10 @@ var SaleDetails = function (_a) {
         saleData.saleInput.saleDate = date;
     };
     var handleLandNameChange = function (event) {
-        saleData.saleInput.landDetailsId = event.target.value;
+        saleData.saleInput.landDetailId = event.target.value;
     };
     var handlePLChange = function (event) {
-        saleData.saleInput.partitionLandDetailsId = event.target.value;
+        saleData.saleInput.partitionLandDetailId = event.target.value;
     };
     var handleQuantityChange = function (event) {
         saleData.saleInput.quantity = event.target.value;

@@ -1,9 +1,11 @@
 ﻿
 import { Http } from "../Http";
 import { AxiosPromise } from "axios";
+import { getUserQueryString, setUserForCRUD } from "../../store/selectors/Accounts";
 
 export class PArtitionLandAPI {
   public static addPartitionLand(input: any) {
+    setUserForCRUD(input);
     var obj = JSON.stringify(input);
     var tObj = JSON.parse(obj);
     var url = '/api/PartitionLand/add-PartitionLand';
@@ -34,7 +36,7 @@ export class PArtitionLandAPI {
   }
 
   public static getPartitionLandList() {
-    return Http.axios().get('/api/PartitionLand/PartitionLand-list')
+    return Http.axios().get('/api/PartitionLand/PartitionLand-list' + "?" + getUserQueryString())
       .catch((e) => {
         return e.response;
       }) as AxiosPromise<any>;

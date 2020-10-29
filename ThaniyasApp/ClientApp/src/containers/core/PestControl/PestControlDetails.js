@@ -29,13 +29,13 @@ var PestControlDetails = function (_a) {
         //date => { setStartDate(date || new Date()) } 
     };
     var handleLandChange = function (event) {
-        pestControlData.pestControlInput.landDetailsId = event.target.value;
-        var items = PLitems.filter(function (item) { return item.landDetailsId == PartitionLandData.partitionLandInput.id; });
+        pestControlData.pestControlInput.landDetailId = event.target.value;
+        var items = PLitems.filter(function (item) { return item.landDetailId == PartitionLandData.partitionLandInput.id; });
         //dispatch(getPartitionLandList);
         return items;
     };
     var handlePLChange = function (event) {
-        pestControlData.pestControlInput.partitionLandDetailsId = event.target.value;
+        pestControlData.pestControlInput.partitionLandDetailId = event.target.value;
     };
     var handleCostChange = function (event) {
         pestControlData.pestControlInput.cost = event.target.value;
@@ -76,7 +76,7 @@ var PestControlDetails = function (_a) {
     //    {PLitems.map((data: any) => { return <IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={PartitionLandData.PLitems.landDetails}> {data.landDirection} </IonSelectOption> })}
     //  </IonSelect>
     //<IonSelect placeholder="Select One" className="dropclr" onIonChange={handlePLChange}>
-    //  {PLitems.filter((v: any) => v.landDetailsId ==  pestControlData.pestControlInput.partitionLandDetailsId).map(function (data: any) { return <IonSelectOption value={data.id} key={data.id} title={data.landDirection} > {data.landDirection} </IonSelectOption> })}
+    //  {PLitems.filter((v: any) => v.landDetailId ==  pestControlData.pestControlInput.partitionLandDetailId).map(function (data: any) { return <IonSelectOption value={data.id} key={data.id} title={data.landDirection} > {data.landDirection} </IonSelectOption> })}
     //</IonSelect>  
     return (React.createElement(react_1.IonPage, null,
         React.createElement(Header_1.default, null),

@@ -47,7 +47,7 @@ var AppFrame = /** @class */ (function (_super) {
             this.setState({ userName: loggedInData.userDetail.userName });
             //  this.setState({ isAdmin: loggedInData.userDetail.roleID === 1 });
             if (currentLocation.includes('users')) {
-                window.location.href = "/homes";
+                window.location.href = "/home";
             }
             else {
                 this.setState({ isValid: true });

@@ -20,8 +20,8 @@ var initialPestControlData = {
         statusValue: true,
     },
     pestControlInput: {
-        landDetailsId: 0,
-        partitionLandDetailsId: 0,
+        landDetailId: 0,
+        partitionLandDetailId: 0,
         ID: 0,
         pestControlDate: "",
         nameofthePestSide: "",
@@ -29,16 +29,18 @@ var initialPestControlData = {
         purpose: "",
         labourCost: "",
     },
+    isFormSubmit: true,
+    isLoading: true,
 };
 var pestControlData = function (state, action) {
     if (state === void 0) { state = initialPestControlData; }
     switch (action.type) {
         case PestControl_1.STORE_PESTCONTROL_STARTED:
-            return __assign(__assign({}, state), { isFormSubmit: false, pestControlInput: action.input });
+            return __assign(__assign({}, state), { isFormSubmit: true, pestControlInput: action.input });
         case PestControl_1.STORE_PESTCONTROL_COMPLETED:
-            return __assign(__assign({}, state), { isFormSubmit: true });
-        case PestControl_1.STORE_PESTCONTROL_FAILED:
             return __assign(__assign({}, state), { isFormSubmit: false });
+        case PestControl_1.STORE_PESTCONTROL_FAILED:
+            return __assign(__assign({}, state), { isFormSubmit: true });
         case PestControl_1.GET_PESTCONTROL_STARTED:
             return __assign({}, state);
         case PestControl_1.GET_PESTCONTROL_COMPLETED:
@@ -46,7 +48,7 @@ var pestControlData = function (state, action) {
         case PestControl_1.GET_PESTCONTROL_FAILED:
             return __assign(__assign({}, state), { error: action.error });
         case PestControl_1.DELETE_PESTCONTROL_STARTED:
-            return __assign(__assign({}, state), { isFormSubmit: false, pestControlInput: action.input });
+            return __assign(__assign({}, state), { isFormSubmit: true, pestControlInput: action.input });
         case PestControl_1.DELETE_PESTCONTROL_COMPLETED:
             var PestControlList = state.PetsControlItems;
             if (action.input.id != 0) {
@@ -54,11 +56,11 @@ var pestControlData = function (state, action) {
                 PestControlList.splice(index, 1);
             }
             ;
-            return __assign(__assign({}, state), { isFormSubmit: true, 
+            return __assign(__assign({}, state), { isFormSubmit: false, 
                 // status: action.payload,
                 pestControlInput: action.input, PestControlList: PestControlList });
         case PestControl_1.DELETE_PESTCONTROL_FAILED:
-            return __assign(__assign({}, state), { error: action.error });
+            return __assign(__assign({}, state), { isFormSubmit: true, error: action.error });
         case PestControl_1.GET_PESTCONTROLBYID_STARTED:
             return __assign(__assign({}, state), { pestControlInput: action.payload });
         case PestControl_1.GET_PESTCONTROLBYID_COMPLETED:

@@ -37,10 +37,10 @@ const SaleDetails: React.SFC<ISaleProps> = ({ dispatch, saleData, PartitionLandD
   }
 
   const handleLandNameChange = (event: any) => {
-    saleData.saleInput.landDetailsId = event.target.value;
+    saleData.saleInput.landDetailId = event.target.value;
   }
   const handlePLChange = (event: any) => {
-    saleData.saleInput.partitionLandDetailsId = event.target.value;
+    saleData.saleInput.partitionLandDetailId = event.target.value;
   };
   const handleQuantityChange = (event: any) => {
     saleData.saleInput.quantity = event.target.value;

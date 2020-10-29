@@ -1,7 +1,7 @@
 ﻿import axios, { AxiosInstance } from "axios";
 
-let API_URL = "http://localhost:56492/";
-let Local_URL = "https://localhost:44346/";
+let API_URL = "";
+let Local_URL = "";
 if (process.env.REACT_APP_API_URL) {
 
   API_URL = process.env.REACT_APP_API_URL;

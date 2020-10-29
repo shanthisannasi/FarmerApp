@@ -21,10 +21,10 @@ var SeedingDetails = function (_a) {
         dispatch(Seedings_1.storeSeedData(seedData.seedInput));
     };
     var handleLandChange = function (event) {
-        seedData.seedInput.landDetailsId = event.target.value;
+        seedData.seedInput.landDetailId = event.target.value;
     };
     var handlePLChange = function (event) {
-        seedData.seedInput.partitionLandDetailsId = event.target.value;
+        seedData.seedInput.partitionLandDetailId = event.target.value;
     };
     var handleQuantityChange = function (event) {
         seedData.seedInput.quantity = event.target.value;
@@ -36,7 +36,7 @@ var SeedingDetails = function (_a) {
         seedData.seedInput.seedCost = event.target.value;
     };
     var handleNOLChange = function (event) {
-        seedData.seedInput.nOofLabours = event.target.value;
+        seedData.seedInput.noOfLabours = event.target.value;
     };
     var handleLCChange = function (event) {
         seedData.seedInput.labourCost = event.target.value;

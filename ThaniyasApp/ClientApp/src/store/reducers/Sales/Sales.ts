@@ -14,8 +14,8 @@ const initialSaleData = {
     statusValue: true,
   },
   saleInput: {
-    landDetailsId: 0,
-    partitionLandDetailsId: 0,
+    landDetailId: 0,
+    partitionLandDetailId: 0,
     ID: 0,
     saleDate: "",
     quantity: "",

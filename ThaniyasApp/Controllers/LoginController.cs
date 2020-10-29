@@ -32,7 +32,7 @@ namespace ThaniyasApp.Controllers
         [HttpPost]
         public async Task<JsonResult> GetUserbyLogin([FromBody]Login input)
         {
-            apiUrl = Config.ApiUrl  + "http://localhost:56492/api/accounts";
+            apiUrl = Config.ApiUrl  + "/api/accounts";
            // localUrl = Config.LocalUrl + "https://localhost:44346/api/Login";
 
             Object returnResults = new object();

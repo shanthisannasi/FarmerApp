@@ -4,14 +4,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using ThaniyasApp.Helper;
+using ThaniyasApp.Middlewares;
 using ThaniyasApp.Models;
-
+using ThaniyasApp.Services.ApiConfig;
 
 namespace IonApp
 {
@@ -33,11 +35,17 @@ namespace IonApp
             Configuration.Bind("ClientAppSettings", config);      //  <--- This
             services.AddSingleton(config);
 
+            Config.ApiUrl = Configuration["ApiAppConfig:Url"];
+            Config.APIKeyValue = Configuration["ApiAppConfig:KeyValue"];
+            Config.SessionTimeout = int.Parse(Configuration["SessionTimeOut"]);
+            Config.debugMode = bool.Parse(Configuration["debugMode"]);
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
             });
+            services.AddHttpClient();
+            services.AddTransient<ApiProxyMiddleware>();
             //services.AddHttpClient<IAccountService, AccountService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -59,6 +67,18 @@ namespace IonApp
                 options.Cookie.Name = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.IdleTimeout = TimeSpan.FromMinutes(Config.SessionTimeout);
                 options.Cookie.HttpOnly = true;
+            });
+            services.AddSingleton<IApiConfiguration, DevelopmentApiConfiguration>();
+            // If using Kestrel:
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            // If using IIS:
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
             });
             //In-Memory
         }
@@ -84,6 +104,7 @@ namespace IonApp
             app.UseSession();
 
             app.UseRouting();
+            app.MapWhen(IsApiPath, builder => builder.UseMiddleware<ApiProxyMiddleware>());
 
             app.UseEndpoints(endpoints =>
             {
@@ -101,6 +122,11 @@ namespace IonApp
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+        }
+
+        private static bool IsApiPath(HttpContext httpContext)
+        {
+            return httpContext.Request.Path.Value.StartsWith(@"/api/", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

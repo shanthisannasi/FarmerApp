@@ -1,0 +1,14 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "myApp",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {},
+  "plugins": {
+    "GoogleAuth": {
+    "scopes": ["profile","email"],
+    "serverClientId": "825025305729-e1b9kjkf9hqfv62j38b304nl0r69grd6.apps.googleusercontent.com"
+    }
+    }
+}

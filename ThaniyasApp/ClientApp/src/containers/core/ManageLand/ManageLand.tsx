@@ -1,7 +1,8 @@
 ﻿import { IonItem, IonContent, IonPage, IonList, IonAlert, IonPopover, IonSelectOption, IonLabel, IonSelect, IonVirtualScroll, IonLoading } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 //import './Reg.scss';
 import Header from '../../common/Header';
+import Confirm from '../../common/Confirm';
 import Footer from '../../common/Footer';
 import { getLandDetailList, deleteLand } from '../../../store/actions/LandDetail';
 import { connect } from 'react-redux';
@@ -23,11 +24,11 @@ interface ILandDetailProps {
 
 
 const ManageLand: React.FunctionComponent<ILandDetailProps & RouteComponentProps> = ({ dispatch, LandDetailData, history }) => {
-  React.useEffect(() => {   
+  useEffect(() => {   
     dispatch(getLandDetailList());
   }, []);
   //var history = createBrowserHistory();
-  const [showPopover, setShowPopover] = useState(false);
+  const [deleteProcess, setDeleteProcess] = useState(false);
   // <IonButton onClick={() => setShowModal(false)}>Close Modal</IonButton>
   //const onaddClick = () => {
     //alert("Edit");
@@ -45,11 +46,20 @@ const ManageLand: React.FunctionComponent<ILandDetailProps & RouteComponentProps
     history.push("/landDetailEditPage/" + id);
   }
   const [showAlert1, setShowAlert1] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [LandInput, setLandInput] = useState();
-  const onDeleteLnadClick = (id: any) => {
-    setShowAlert1(true);
+  const onDeleteLnadClick = (id: any) => {    
     setLandInput(id);
-    dispatch(deleteLand(id));
+    setShowConfirm(true);
+  }
+
+  function processDelete() {
+    setDeleteProcess(true);
+    dispatch(deleteLand(LandInput));
+  }
+  if (deleteProcess && !LandDetailData.isFormSubmit) {
+    setDeleteProcess(false);
+    setShowAlert1(true);
   }
   const [LandData, setLandData] = useState([]);
 
@@ -57,6 +67,7 @@ const ManageLand: React.FunctionComponent<ILandDetailProps & RouteComponentProps
     setLandData(LandDetailData.Landitems);
   }
 
+  
   const Landitems: any = (LandData || []);
   const itemLand: any = [];
 
@@ -80,8 +91,9 @@ const ManageLand: React.FunctionComponent<ILandDetailProps & RouteComponentProps
               <label className="lbl"> Land Details </label>
               <a onClick={() =>
               {
+                history.push("/landDetailEditPage/" + 0);
                
-                history.push("/landDetails")
+                //history.push("/landDetails")
               }}
 
                 className="add-btn">  ADD  </a>
@@ -100,6 +112,7 @@ const ManageLand: React.FunctionComponent<ILandDetailProps & RouteComponentProps
             message={'Successfully Deleted'}
             buttons={['OK']}
           />
+          <Confirm showConfirm={showConfirm} setShowConfirm={setShowConfirm} processDelete={processDelete}  message="<strong>Are you sure do you want to delete it?</strong>!!!" />          
         </div>
       </IonContent>    
     </IonPage>

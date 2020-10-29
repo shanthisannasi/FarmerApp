@@ -4,3 +4,119 @@
 *.ide
 *.ide-shm
 *.ide-wal
+ionic web/android/app/build.gradle
+ionic web/android/app/capacitor.build.gradle
+ionic web/android/app/proguard-rules.pro
+ionic web/android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java
+ionic web/android/.idea/codeStyles/Project.xml
+ionic web/android/.idea/misc.xml
+ionic web/android/.idea/runConfigurations.xml
+ionic web/android/app/.npmignore
+ionic web/android/app/src/main/AndroidManifest.xml
+ionic web/android/app/src/main/assets/capacitor.config.json
+ionic web/android/app/src/main/java/io/ionic/starter/MainActivity.java
+ionic web/android/app/src/main/res/drawable-land-hdpi/splash.png
+ionic web/android/app/src/main/res/drawable-land-mdpi/splash.png
+ionic web/android/app/src/main/res/drawable-land-xhdpi/splash.png
+ionic web/android/app/src/main/res/drawable-land-xxhdpi/splash.png
+ionic web/android/app/src/main/res/drawable-land-xxxhdpi/splash.png
+ionic web/android/app/src/main/res/drawable-port-hdpi/splash.png
+ionic web/android/app/src/main/res/drawable-port-mdpi/splash.png
+ionic web/android/app/src/main/res/drawable-port-xhdpi/splash.png
+ionic web/android/app/src/main/res/drawable-port-xxhdpi/splash.png
+ionic web/android/app/src/main/res/drawable-port-xxxhdpi/splash.png
+ionic web/android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml
+ionic web/android/app/src/main/res/drawable/ic_launcher_background.xml
+ionic web/android/app/src/main/res/drawable/launch_splash.xml
+ionic web/android/app/src/main/res/drawable/splash.png
+ionic web/android/app/src/main/res/layout/activity_main.xml
+ionic web/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+ionic web/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+ionic web/android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+ionic web/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png
+ionic web/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+ionic web/android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+ionic web/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png
+ionic web/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+ionic web/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+ionic web/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png
+ionic web/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+ionic web/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+ionic web/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png
+ionic web/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+ionic web/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+ionic web/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+ionic web/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+ionic web/android/app/src/main/res/values/ic_launcher_background.xml
+ionic web/android/app/src/main/res/values/strings.xml
+ionic web/android/app/src/main/res/values/styles.xml
+ionic web/android/app/src/main/res/xml/config.xml
+ionic web/android/app/src/main/res/xml/file_paths.xml
+ionic web/android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java
+ionic web/android/build.gradle
+ionic web/android/capacitor.settings.gradle
+ionic web/android/gradle.properties
+ionic web/android/gradle/wrapper/gradle-wrapper.jar
+ionic web/android/gradle/wrapper/gradle-wrapper.properties
+ionic web/android/gradlew
+ionic web/android/gradlew.bat
+ionic web/android/settings.gradle
+ionic web/old android/.idea/codeStyles/Project.xml
+ionic web/old android/.idea/misc.xml
+ionic web/old android/.idea/runConfigurations.xml
+ionic web/old android/app/.npmignore
+ionic web/old android/app/build.gradle
+ionic web/old android/app/capacitor.build.gradle
+ionic web/old android/app/proguard-rules.pro
+ionic web/old android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java
+ionic web/old android/app/src/main/AndroidManifest.xml
+ionic web/old android/app/src/main/assets/capacitor.config.json
+ionic web/old android/app/src/main/java/io/ionic/starter/MainActivity.java
+ionic web/old android/app/src/main/res/drawable-land-hdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-land-mdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-land-xhdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-land-xxhdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-land-xxxhdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-port-hdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-port-mdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-port-xhdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-port-xxhdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-port-xxxhdpi/splash.png
+ionic web/old android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml
+ionic web/old android/app/src/main/res/drawable/ic_launcher_background.xml
+ionic web/old android/app/src/main/res/drawable/launch_splash.xml
+ionic web/old android/app/src/main/res/drawable/splash.png
+ionic web/old android/app/src/main/res/layout/activity_main.xml
+ionic web/old android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+ionic web/old android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+ionic web/old android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+ionic web/old android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png
+ionic web/old android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+ionic web/old android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+ionic web/old android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png
+ionic web/old android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+ionic web/old android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+ionic web/old android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png
+ionic web/old android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+ionic web/old android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+ionic web/old android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png
+ionic web/old android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+ionic web/old android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+ionic web/old android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+ionic web/old android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+ionic web/old android/app/src/main/res/values/ic_launcher_background.xml
+ionic web/old android/app/src/main/res/values/strings.xml
+ionic web/old android/app/src/main/res/values/styles.xml
+ionic web/old android/app/src/main/res/xml/config.xml
+ionic web/old android/app/src/main/res/xml/file_paths.xml
+ionic web/old android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java
+ionic web/old android/build.gradle
+ionic web/old android/capacitor.settings.gradle
+ionic web/old android/gradle.properties
+ionic web/old android/gradle/wrapper/gradle-wrapper.jar
+ionic web/old android/gradle/wrapper/gradle-wrapper.properties
+ionic web/old android/gradlew
+ionic web/old android/gradlew.bat
+ionic web/old android/settings.gradle
+ionic web android/android/app/build/intermediates/transforms/dexBuilder/debug/184.jar
+/ionic web android

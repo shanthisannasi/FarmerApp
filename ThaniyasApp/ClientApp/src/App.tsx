@@ -89,9 +89,9 @@ if (loggedInString) {
           <Route path="/registrations" component={Registrations} exact={true} />
           <Route path="/otpPage" component={OtpPage} exact={true} />
           <Route path="/login" component={Login} exact={true} />
-          <Route exact path="/" render={() => <Redirect to="/registrations" />} />
+                  <Route exact path="/" render={() => <Redirect to="/login" />} />
           
-            <Route path="/homes" component={Homes} exact={true} /> 
+            <Route path="/home" component={Homes} exact={true} /> 
             
             <Route path="/manageLands" component={ManageLands} exact={true} />
             <Route path="/landDetails" component={LandDetails} exact={true} />

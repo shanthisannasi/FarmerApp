@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Http_1 = require("../Http");
+var Accounts_1 = require("../../store/selectors/Accounts");
 var SeedingAPI = /** @class */ (function () {
     function SeedingAPI() {
     }
     SeedingAPI.addSeed = function (input) {
+        Accounts_1.setUserForCRUD(input);
         var obj = JSON.stringify(input);
         var tObj = JSON.parse(obj);
         var url = '/api/Seed/add-Seed';
@@ -32,7 +34,7 @@ var SeedingAPI = /** @class */ (function () {
         }
     };
     SeedingAPI.getSeedList = function () {
-        return Http_1.Http.axios().get('/api/Seed/seed-list')
+        return Http_1.Http.axios().get('/api/Seed/seed-list' + "?" + Accounts_1.getUserQueryString())
             .catch(function (e) {
             return e.response;
         });

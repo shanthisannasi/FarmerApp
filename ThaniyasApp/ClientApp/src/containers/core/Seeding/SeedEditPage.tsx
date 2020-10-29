@@ -6,6 +6,12 @@ import { Dispatch } from 'redux';
 import { getSeedById, storeSeedData } from "../../../store/actions/Seedings";
 import { useDispatch, connect } from 'react-redux';
 import Footer from '../../common/Footer';
+import { getLandDetailList } from '../../../store/actions/LandDetail';
+import { validateSeeding } from '../../common/FormValidationRules';
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
 
 
 interface ISeedAddEditProps {
@@ -17,88 +23,170 @@ interface ISeedAddEditProps {
   params: any;
   seedData: any;
   LandDetailData: any;
-
+  getLandDetails: any;
 }
 
 interface ISeedAddEditState {
-    quantity: any;
-    seedName: any;
-    seedCost: any;
-    nOofLabours: any;
-    labourCost: any;
-    id: 0;
-    landDetailsId: any;
-    partitionLandDetailsId: any;
+  input: any;
+  isFormSubmited: boolean;
+  isEdit: boolean;
+  selectedLand: any;
+  partitionList: any;
+  isSubmitting: boolean;
+  errors: any;
   
 }
 
 
 class SeedEditPage extends React.Component<ISeedAddEditProps, ISeedAddEditState> {
+  
   constructor(props: any) {
     super(props);
 
     this.state = {
-        quantity: null,
-        seedName: null,
-        seedCost: null,
-        nOofLabours: null,
-        labourCost: null,
-        id:0,
-        landDetailsId: 0,
-        partitionLandDetailsId: 0,
-     
+      input: this.inputInit,
+      isFormSubmited: false,
+      isEdit: false,
+      selectedLand: {},
+      partitionList: [],
+      isSubmitting: false,
+      errors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleOnsubmit = this.handleOnsubmit.bind(this);
   }
 
+
+  inputInit = {
+    quantity: 0,
+    seedName: "",
+    seedCost: 0,
+    noOfLabours: 0,
+    labourCost: 0,
+    date: new Date(),
+    id: 0,
+    landDetailId: 0,
+    partitionLandDetailId: 0,
+  };
+
+
   componentWillMount() {
-    this.props.getSeedById1(this.props.match.params.id);
+    var id = this.props.match.params.id;
+    if (this.props.LandDetailData.Landitems) {
+      if (this.props.LandDetailData.Landitems.length === 0) {
+        this.props.getLandDetails();
+      }
+    }
+    if (id && id !== null && id !== 0 && id !== "0") {
+      this.setState({ isEdit: true });
+    }
+    else {
+      this.setState({ isEdit: false });
+    }
   }
 
   componentWillReceiveProps(newProps: any) {
+
     if (!newProps.seedData.isFormSubmit) {
       window.location.href = '/seedings';
     }
-    if (newProps.seedData.Seeditems) {
+    if (!this.state.isEdit) {
+      this.setState({ input: this.inputInit });
+    }
+    else if (this.state.isEdit && newProps.seedData.Seeditems) {
+      var item = newProps.seedData.Seeditems.find((x: { id: number; }) => x.id === parseInt(this.props.match.params.id));
+      if (item !== null && item) {
+        var land = this.getLand(item.partitionLandDetail.landDetailId);
+
+        this.setState({
+          input: {
+
+            ...item,
+            landDetailId: item.partitionLandDetail.landDetailId,
+            partitionLandDetailId: item.partitionLandDetailId,
+          },
+          selectedLand: land,
+          partitionList: land.partitionLandDetails
+        });
+      }
+    }
+  }
+  setDate(dateValue: any) {
+    if (this.state) {
+      const { input } = this.state;
       this.setState({
-        landDetailsId: newProps.seedData.Seeditems.selectedLandDetailId,
-        partitionLandDetailsId: newProps.seedData.Seeditems.selectedPartLandDetailId,
-        seedCost: newProps.seedData.Seeditems.seedCost,
-        nOofLabours: newProps.seedData.Seeditems.nOofLabours,
-        labourCost: newProps.seedData.Seeditems.labourCost,
-        id: newProps.seedData.Seeditems.id,
-        seedName: newProps.seedData.Seeditems.seedName,
-        quantity: newProps.seedData.Seeditems.quantity,
-      })
+        input: {
+          ...input,
+          date: dateValue
+        }
+      });
     }
   }
 
-  handleOnsubmit(event: any) {   
-    event.preventDefault();   
-    this.props.storeSeedData1(this.state);
+
+  handleOnsubmit(event: any) {
+    event.preventDefault();
+    var errors = validateSeeding(this.state.input);
+    this.setState({ isSubmitting: true, errors: errors });
+    this.processSave(this.state.input, errors, true);
   }
 
+  processSave(values: any, errors: any, isSubmit: boolean) {
+    if (Object.keys(errors).length === 0 && isSubmit) {
+      this.setState({ isFormSubmited: true });
+      this.props.storeSeedData1(values);
+    }
+  }
+  getLand(id: any) {
+    if (this.props.LandDetailData.Landitems.length > 0) {
+      var item = this.props.LandDetailData.Landitems.find((x: { id: any; }) => x.id === id);
+      return item;
+    }
+    return null;
+  }
   handleLandChange = (event: any) => {
-    this.setState({
-      landDetailsId: event.target.value
-    });
+    var errors = validateSeeding(this.state.input);
+    var selectedLand = this.getLand(event.target.value);
+    if (this.state) {
+      const { input } = this.state;
+      this.setState({
+        input: {
+          ...input,
+          landDetailId: event.target.value
+        },
+        selectedLand: selectedLand,
+        partitionList: selectedLand.partitionLandDetails
+        , errors: errors
+      });
+    }
   }
 
   handlePLChange = (event: any) => {
-    this.setState({
-      partitionLandDetailsId: event.target.value
-    });
+    var errors = validateSeeding(this.state.input);
+    if (this.state) {
+      const { input } = this.state;
+      this.setState({
+        input: {
+          ...input,
+          partitionLandDetailId: event.target.value
+        }
+        , errors: errors
+      });
+    }
   }
-
 
   handleChange(event: any) {
     const { name, value } = event.target;
+    var errors = validateSeeding(this.state.input);
     if (this.state) {
-      this.setState({      
-          ...this.state,
-          [name]: value       
+      const { input } = this.state;
+      this.setState({
+        input: {
+          ...input,
+          [name]: value
+        },
+        errors: errors
       });
     }
   }
@@ -110,33 +198,61 @@ class SeedEditPage extends React.Component<ISeedAddEditProps, ISeedAddEditState>
         <Header />
         <IonContent className=".reg-login">
           <div className="bg-image">
-            <div className="reg-head">
-              <h1> Edit Seeding </h1>
+            <div className="reg-head">              
+              {!this.state.isEdit && (
+                <h1>  Add Seeding </h1>
+              )}
+              {this.state.isEdit && (
+                <h1>  Edit Seeding </h1>
+              )}
             </div>
-            {this.state.id && (
             <form className="form">
               <IonRow>
                 <IonCol>
                     <IonText className="reg-fields">
-                      {this.props.seedData.Seeditems.landDetailName && (
-                        <IonSelect className="dropclr" onIonChange={this.handleLandChange}>
-                          {this.props.seedData.Seeditems.landDetailName.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.name} selected={data.id == this.props.seedData.Seeditems.selectedLandDetailId} > {data.name} </IonSelectOption>) })}
-                        </IonSelect>)}
-                      <label> Partition Land Name </label>
-                      {this.props.seedData.Seeditems.partLandDetailName && (
-                        <IonSelect className="dropclr" onIonChange={this.handlePLChange}>
-                          {this.props.seedData.Seeditems.partLandDetailName.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={data.id == this.props.seedData.Seeditems.selectedPartLandDetailId} > {data.landDirection} </IonSelectOption>) })}
-                        </IonSelect>)}
-                      Quantity <input type="text" name="quantity" className="input-text" onChange={this.handleChange} value={this.state.quantity} />
-                      Seed Name <input type="text" name="seedName" className="input-text" onChange={this.handleChange} value={this.state.seedName} />
-                      Seed Cost <input type="text" name="seedCost" className="input-text" onChange={this.handleChange} value={this.state.seedCost} />
-                      NO of Labours <input type="text" name="nOofLabours" className="input-text" onChange={this.handleChange} value={this.state.nOofLabours} />
-                      Labour Cost <input type="text" name="labourCost"  className="input-text" onChange={this.handleChange} value={this.state.labourCost} />
+                    <label> Land Name </label>
+                    {this.props.LandDetailData.Landitems && (
+                      <IonSelect className="dropclr" onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
+                        {this.props.LandDetailData.Landitems.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.name} selected={data.id == this.state.input.landDetailId} > {data.name} </IonSelectOption>) })}
+                      </IonSelect>)}
+                    {this.state.errors.landDetailId && (
+                      <p className="help is-danger">{this.state.errors.landDetailId}</p>
+                    )}
+                    <label> Partition Land Name </label>
+                    <IonSelect className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
+                      {this.state.partitionList.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={data.id == this.state.input.partitionLandDetailId} > {data.landDirection} </IonSelectOption>) })}
+                    </IonSelect>
+                    {this.state.errors.landDetailId && (
+                      <p className="help is-danger">{this.state.errors.landDetailId}</p>
+                    )}
+                    <IonRow> Date </IonRow><IonRow> <DatePicker selected={moment(this.state.input.date).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>
+                    {this.state.errors.date && (
+                      <p className="help is-danger">{this.state.errors.date}</p>
+                    )}
+                      Quantity <input type="number" name="quantity" className="input-text" onChange={this.handleChange} value={this.state.input.quantity} />
+                    {this.state.errors.quantity && (
+                      <p className="help is-danger">{this.state.errors.quantity}</p>
+                    )}
+                      Seed Name <input type="text" name="seedName" className="input-text" onChange={this.handleChange} value={this.state.input.seedName} />
+                    {this.state.errors.seedName && (
+                      <p className="help is-danger">{this.state.errors.seedName}</p>
+                    )}
+                      Seed Cost <input type="number" name="seedCost" className="input-text" onChange={this.handleChange} value={this.state.input.seedCost} />
+                    {this.state.errors.seedCost && (
+                      <p className="help is-danger">{this.state.errors.seedCost}</p>
+                    )}
+                      NO of Labours <input type="number" name="noOfLabours" className="input-text" onChange={this.handleChange} value={this.state.input.noOfLabours} />
+                    {this.state.errors.landDetailId && (
+                      <p className="help is-danger">{this.state.errors.landDetailId}</p>
+                    )}
+                      Labour Cost <input type="number" name="labourCost" className="input-text" onChange={this.handleChange} value={this.state.input.labourCost} />
+                    {this.state.errors.labourCost && (
+                      <p className="help is-danger">{this.state.errors.labourCost}</p>
+                    )}
                   </IonText>
                 </IonCol>
               </IonRow>
-              </form>
-            )}
+              </form>            
           </div>
         </IonContent>
         <footer className="footcolor" >
@@ -153,15 +269,18 @@ class SeedEditPage extends React.Component<ISeedAddEditProps, ISeedAddEditState>
 
 
 const mapStateToProps = (state: any) => {
-  const { seedData } = state;
+  const { seedData, LandDetailData } = state;
 
   return {
-    seedData
+    seedData, LandDetailData
   };
 };
 
 const mapDisptchToProps = (dispatch: any) => {
   return {
+    getLandDetails: () => {
+      dispatch(getLandDetailList());
+    },
     getSeedById1: (id: any) => {
       dispatch(getSeedById(id));
     },

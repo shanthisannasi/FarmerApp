@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 //import { storeLandDetailData } from '../../../store/actions/LandDetail';
-import { getPartitionLandList, deletePartitionLand} from '../../../store/actions/PartitionLand';
+import { getPartitionLandList, deletePartitionLand } from '../../../store/actions/PartitionLand';
+import { getLandDetailList } from '../../../store/actions/LandDetail';
 //import { CANCEL } from 'redux-saga';
 //import PartitionLandData from '../../../store/reducers/PartitionLand/PartitionLand';
 //import PartitionLandData from '../../../store/reducers/PartitionLand/PartitionLand';
@@ -27,6 +28,7 @@ const ManagePartition: React.SFC<IPartitionProps & RouteComponentProps> = ({ dis
 
   React.useEffect(() => {
     dispatch(getPartitionLandList());
+    dispatch(getLandDetailList());
   }, []);
 
   const [showAlert1, setShowAlert1] = useState(false);
@@ -74,7 +76,7 @@ const ManagePartition: React.SFC<IPartitionProps & RouteComponentProps> = ({ dis
             <IonItem className="MLand-Lbl">
               <label className="lbl"> Manage Partition Details </label>
               <a onClick={() => {               
-                  history.push("/managePartitionDetails")
+                history.push("/managePartitionEdit/0")
               
               }}
 
@@ -103,7 +105,7 @@ const ManagePartition: React.SFC<IPartitionProps & RouteComponentProps> = ({ dis
               {
                 text: 'Okay',                
                 handler: () => {                  
-                  var idvalue = partitionLand;
+                  var idvalue = partInput;
                   if (idvalue != null) {
                     dispatch(deletePartitionLand(idvalue));  
                   }                                                   

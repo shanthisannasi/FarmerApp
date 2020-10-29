@@ -28,8 +28,11 @@
   <ItemGroup>
     <None Remove="ClientApp\src\containers\common\AppFrame.tsx" />
     <None Remove="ClientApp\src\containers\common\AppFrame\intex.ts" />
+    <None Remove="ClientApp\src\containers\common\Confirm.tsx" />
     <None Remove="ClientApp\src\containers\common\Footer.tsx" />
+    <None Remove="ClientApp\src\containers\common\FormValidationRules.ts" />
     <None Remove="ClientApp\src\containers\common\Header.tsx" />
+    <None Remove="ClientApp\src\containers\common\UseForm.ts" />
     <None Remove="ClientApp\src\containers\core\Harvesting\HarvestDetails.tsx" />
     <None Remove="ClientApp\src\containers\core\Harvesting\Harvesting.tsx" />
     <None Remove="ClientApp\src\containers\core\Harvesting\HarvestingEditPage.tsx" />
@@ -126,6 +129,18 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Update="ClientApp\src\containers\common\Confirm.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\containers\common\FormValidationRules.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\containers\common\UseForm.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

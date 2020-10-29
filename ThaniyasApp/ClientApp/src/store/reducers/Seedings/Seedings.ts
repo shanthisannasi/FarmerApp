@@ -15,13 +15,13 @@ const initialSeedData = {
     statusValue: true,
   },
   seedInput: {
-    landDetailsId: 0,
-    partitionLandDetailsId: 0,
+    landDetailId: 0,
+    partitionLandDetailId: 0,
     ID: 0,
     quantity: "",
     seedName: "",
     seedCost: "",
-    nOofLabours: "",
+    noOfLabours: "",
     labourCost: "",
   },
 
