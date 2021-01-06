@@ -20,7 +20,7 @@
     "@types/react-router": "^5.1.1",
     "@types/react-router-dom": "^5.1.0",
     "@types/react-table": "^7.0.4",
-    "axios": "^0.19.1",
+    "axios": "^0.21.1",
     "capacitor": "^0.5.5",
     "icons": "^1.0.0",
     "ionic-image-loader": "^6.3.3",
