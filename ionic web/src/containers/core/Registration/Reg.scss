@@ -190,6 +190,9 @@
         margin-left: 75%;
         margin-bottom: 0.5%;
     }
+    .logo {
+        margin-left: 1%;
+    }
 
     @media screen and (max-width: 600px) {
         .drop {
@@ -289,7 +292,7 @@
     width: 100%;
 }
 .h-img{
-    text-align:center;
+    text-align:left;
 }
 
 @media screen and (max-width: 600px) {
@@ -298,6 +301,7 @@
 // }
 .logout-img{
     text-align:right;
+    margin-left: 1%;
 }
 }
 //.h-img:hover {

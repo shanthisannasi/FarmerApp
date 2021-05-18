@@ -10,11 +10,6 @@ import { getLandDetailById, storeLandDetailData } from "../../../store/actions/L
 import { useDispatch, connect } from 'react-redux';
 import { getStatelList } from '../../../store/actions/StateList';
 import { RouteComponentProps } from 'react-router';
-
-
-
-
-
 interface ILandAddEditProps {
   dispatch: Dispatch<any>;
   getLandDetailById1: any;
@@ -32,9 +27,11 @@ interface ILandAddEditState {
   isEdit: boolean;
   isSubmitting: boolean;
   errors: any;
+  viewCheck:any;
 }
 
 class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteComponentProps, ILandAddEditState> {
+  
   constructor(props: any) {
     super(props);
    
@@ -43,12 +40,17 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
       isFormSubmited: false,
       isEdit: false,      
       isSubmitting: false,      
-      errors: {}
+      errors: {},
+      viewCheck:this.viewInput
     };    
     this.handleChange = this.handleChange.bind(this);
     this.handleOnsubmit = this.handleOnsubmit.bind(this);
   }
-
+  
+  
+  viewInput={
+    isView:false
+  };
   inputInit = {
     id: 0,
     StateId: 0,
@@ -60,14 +62,25 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
     notes: "",
     name: "",
     isFormSubmited: false,
-    surveyNumber: 0
+    surveyNumber: 0,
+    
   };
   
+  
   componentWillMount() {
+    let words;
     var id = this.props.match.params.id;
+    words = id.split('.');
+    var ID=words[0];
+    var viewType=words[1];
+    if(viewType==="View"){
+      this.state.viewCheck.isView=true;
+    }
+    console.log("this.state.input.isView"+this.state.viewCheck.isView);
+   
     this.props.getStates();
-    if (id && id !== null && id !== 0 && id !== "0") {
-      this.props.getLandDetailById1(this.props.match.params.id);
+    if (ID && ID !== null && ID !== 0 && ID !== "0") {
+      this.props.getLandDetailById1(ID);
       this.setState({ isEdit: true });
     }
     else {
@@ -87,7 +100,7 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
       window.location.href = '/manageLands';
       //this.props.history.push('/manageLands');
     }
-    var id = this.props.match.params.id;
+  //  var id = this.props.match.params.id;
     if (!this.state.isEdit) {
       this.setState({ input: this.inputInit});
     }
@@ -132,6 +145,21 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
       });
     }
   }
+ videoConstraints = {
+  width: 1280,
+  height: 720,
+  facingMode: "user"
+};
+  
+/*webcamRef = React.useRef(string);
+
+   capture = React.useCallback(
+    () => {
+      const imageSrc = this.webcamRef.current.getScreenshot();
+    },
+    [this.webcamRef]
+  );
+*/
 
   handleStateChange = (event: any) => {
     const { input } = this.state;
@@ -142,7 +170,20 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
         StateId: event.target.value }
     });
   }
-
+   handleTakePhoto (dataUri: string) {
+    // Do stuff with the photo...
+    console.log(dataUri);
+    console.log('takePhoto');
+  }  
+  handleTakePhotoAnimationDone(dataUri: string){
+    
+  }
+  handleCameraError(error: string){
+    
+  }
+  
+  
+  
   render() {    
     return (
       <IonPage>
@@ -150,12 +191,16 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
         <IonContent className=".reg-login">
           <div className="bg-image">
             <div className="AEreg-head">
-              {!this.state.isEdit && (
+              {!this.state.isEdit && !this.state.viewCheck.isView &&(
                  <div> Add Land Detail </div>
               )}
-              {this.state.isEdit && (
+              {this.state.isEdit && !this.state.viewCheck.isView&&(
                 <div>  Edit Land Detail </div>
               )}
+              {this.state.viewCheck.isView&&(
+                <div>  View Land Detail </div>
+              )}
+
             </div>
             <IonLoading
                 isOpen={this.state.isFormSubmited}
@@ -170,7 +215,7 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
                       <IonLabel>State</IonLabel>
                       <IonItem >
                         {this.props.stateListData.stateitems.length > 0 && (
-                          <IonSelect placeholder="Select One" className="dropclr" onIonChange={this.handleStateChange} value={this.state.input.StateId}>
+                          <IonSelect disabled={this.state.viewCheck.isView} placeholder="Select One" className="dropclr" onIonChange={this.handleStateChange} value={this.state.input.StateId}>
                             {this.props.stateListData.stateitems.map((data: any) => {
                               return <IonSelectOption value={data.id}  key={data.id} title={data.stateName}
                                 selected={data.id == this.state.input.StateId}> {data.stateName} </IonSelectOption>
@@ -181,48 +226,46 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
                           <p className="help is-danger">{this.state.errors.StateId}</p>
                         )}
                       </IonItem>
-                      Land Name <input type="text" name="name" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.name} required />
+                      Land Name <input  readOnly={this.state.viewCheck.isView} type="text" name="name" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.name} required />
                       {this.state.errors.name && (
                         <p className="help is-danger">{this.state.errors.name}</p>
                       )}
-                      Patta Number <input type="text" name="pattaNumber" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.pattaNumber} required />
+                      Patta Number <input readOnly={this.state.viewCheck.isView} type="text" name="pattaNumber" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.pattaNumber} required />
                       {this.state.errors.pattaNumber && (
                         <p className="help is-danger">{this.state.errors.pattaNumber}</p>
                       )}
-                      Survey Number <input type="text" name="surveyNumber" className={`input-text ${this.state.errors.surveyNumber && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.surveyNumber} required />
+                      Survey Number <input readOnly={this.state.viewCheck.isView} type="text" name="surveyNumber" className={`input-text ${this.state.errors.surveyNumber && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.surveyNumber} required />
                       {this.state.errors.surveyNumber && (
                         <p className="help is-danger">{this.state.errors.surveyNumber}</p>
                       )}
                       
-                      Area Size (By Acre)<input type="number"  name="areaSize" className={`input-text ${this.state.errors.email && 'is-danger'}` } onChange={this.handleChange} value={this.state.input.areaSize} />
+                      Area Size (By Acre)<input readOnly={this.state.viewCheck.isView} type="number"  name="areaSize" className={`input-text ${this.state.errors.email && 'is-danger'}` } onChange={this.handleChange} value={this.state.input.areaSize} />
                      
                       {this.state.errors.areaSize && (
                         <p className="help is-danger">{this.state.errors.areaSize}</p>
                       )}
-                      City <input type="text" name="city" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.city} required />
+                      City <input readOnly={this.state.viewCheck.isView} type="text" name="city" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.city} required />
                       {this.state.errors.city && (
                         <p className="help is-danger">{this.state.errors.city}</p>
                       )}
-                      Village <input type="text" name="village" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.village} required />
+                      Village <input readOnly={this.state.viewCheck.isView} type="text" name="village" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.village} required />
                       {this.state.errors.village && (
                         <p className="help is-danger">{this.state.errors.village}</p>
                       )}
-
-                      Notes <textarea name="notes" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.notes} required />
+                      Notes <textarea readOnly={this.state.viewCheck.isView} name="notes" className={`input-text ${this.state.errors.email && 'is-danger'}`} onChange={this.handleChange} value={this.state.input.notes} required />
                       {this.state.errors.notes && (
                         <p className="help is-danger">{this.state.errors.notes}</p>
                       )}
-                                                                  
-                    </IonText>
-                  </IonCol>
-                </IonRow>
-              </form>
+     </IonText>
+     </IonCol>
+     </IonRow>
+    </form>
             )}
           </div>
         </IonContent>
         <footer className="footcolor" > 
-        <Footer />        
-          <button className="ok-btn" onClick={this.handleOnsubmit}> SAVE </button> 
+        {!this.state.viewCheck.isView&& (<Footer /> )}      
+        {!this.state.viewCheck.isView&& ( <button className="ok-btn" onClick={this.handleOnsubmit}> SAVE </button> )}
         </footer>
       </IonPage>
     );
@@ -243,7 +286,7 @@ const mapDisptchToProps = (dispatch: any) => {
       dispatch(getLandDetailById(id));
       dispatch(getStatelList());
     },
-    getStates: (id: any) => {
+    getStates: (_id: any) => {
       dispatch(getStatelList());
     },
     storeLandDetailData1: (id: any) => {
@@ -252,4 +295,6 @@ const mapDisptchToProps = (dispatch: any) => {
   };
 };
 
+
 export default connect(mapStateToProps, mapDisptchToProps)(LandDetailEditPage);
+

@@ -29,7 +29,12 @@ const Sale: React.SFC<ISaleProps & RouteComponentProps> = ({ dispatch, saleData,
   const [Sale, setSale] = useState()
   const onEditSaleClick = (id:any) => {
     setSale(id);
-    history.push("/saleEditPage/" + id);
+    history.push("/saleEditPage/" + id+".Edit");
+  }
+
+  const onViewSaleClick = (id:any) => {
+    setSale(id);
+    history.push("/saleEditPage/" + id+".View");
   }
   const [showLoading, setShowLoading] = useState(false);
   const [showAlert1, setShowAlert1] = useState(false);
@@ -60,7 +65,11 @@ const Sale: React.SFC<ISaleProps & RouteComponentProps> = ({ dispatch, saleData,
   const SaleList: any = [];
   SaleItems.forEach((SaleItems: any) => SaleList.push(
     <IonItem key={SaleItems.id}>
-      <IonLabel> {SaleItems.buyerName} </IonLabel>
+     <a className="view-icon" onClick={() => onViewSaleClick(SaleItems.id)}
+                 target="_blank" >  <IonLabel> {SaleItems.buyerName} </IonLabel>
+                 </a>        
+     
+    
         <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditSaleClick(SaleItems.id)}></img>
       <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeleteSeedClick(SaleItems.id)} ></img>
     </IonItem>));

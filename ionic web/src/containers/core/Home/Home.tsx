@@ -126,7 +126,7 @@ class Home extends React.Component<IHomeProps, IHeaderState>{
                 </a>  
               </IonCol>              
             </IonRow>
-          </form>
+           </form>
         </div>
       </IonContent>
     </IonPage>
