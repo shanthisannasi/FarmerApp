@@ -57,12 +57,9 @@ const WeedRemove: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatc
   const [WeedRemove, setWeedRemove] = useState();
   const onEditWeedRemoveClick = (id:any) => {
     setWeedRemove(id);
-    history.push("/weedRemoveEditPage/" + id+".Edit");
+    history.push("/weedRemoveEditPage/" + id);
   }
-  const onViewWeedRemoveClick = (id:any) => {
-    setWeedRemove(id);
-    history.push("/weedRemoveEditPage/" + id+".View");
-  }
+
   const [WeedData, setWeedRemoveData] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   if (weedRemoveData.isLoading===false && isDataLoaded === false) {
@@ -79,10 +76,8 @@ const WeedRemove: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatc
   const WeeditemLandList: any = [];
   WeedItems.forEach((WeedItems: any) => WeeditemLandList.push(
     <IonItem key={WeedItems.id}>
-      <a className="view-icon" onClick={() => onViewWeedRemoveClick(WeedItems.id)}
-                 target="_blank" ><IonLabel>  {WeedItems.partitionLandDetail.landDetail.name} <br></br> {WeedItems.partitionLandDetail.landDirection} <br></br> {WeedItems.cost} </IonLabel>  
-                 </a>        
-     
+      <IonLabel>  {WeedItems.partitionLandDetail.landDetail.name} <br></br> {WeedItems.partitionLandDetail.landDirection} <br></br> {WeedItems.cost} </IonLabel>  
+
         <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditWeedRemoveClick(WeedItems.id)}></img>
      
       <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeleteWeedRemoveClick(WeedItems.id)} ></img>

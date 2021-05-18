@@ -9,8 +9,6 @@ import { getHarvestList, deleteHarvest } from '../../../store/actions/Harvesting
 import { RouteComponentProps, withRouter } from 'react-router';
 import Confirm from '../../common/Confirm';
 import { getLandDetailList } from '../../../store/actions/LandDetail';
-import Moment from 'react-moment';
-import 'moment-timezone';
 
 interface Props extends RouteComponentProps { }
 
@@ -32,14 +30,8 @@ const Harvesting: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatc
   const [showLoading, setShowLoading] = useState(false);
   const onEditHarvestClick = (id:any) => {
     setHarvest(id);
-    history.push("/harvestingEditPage/" + id+".Edit");
-    //history.push("/harvestingEditPage/" + id)
-  }
-
-  const onViewHarvestClick = (id:any) => {
-    setHarvest(id);
-    history.push("/harvestingEditPage/" + id+".View");
-    //history.push("/harvestingEditPage/" + id)
+    history.push("/harvestingEditPage/" + id);
+    history.push("/harvestingEditPage/" + id)
   }
 
   const [showAlert1, setShowAlert1] = useState(false);
@@ -72,15 +64,7 @@ const Harvesting: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatc
   const HarvestList: any = [];
   HarvestItems.forEach((HarvestItems: any) => HarvestList.push(
     <IonItem key={HarvestItems.id}>
-      <a onClick={() => onViewHarvestClick(HarvestItems.id)}
-                >   <IonLabel> {HarvestItems.partitionLandDetail.landDetail.name}<br></br> 
-                               {HarvestItems.partitionLandDetail.landDirection} <br></br> 
-                               {HarvestItems.cost} <br></br> 
-                               <Moment format="DD-MM-YYYY">{HarvestItems.date}</Moment>
-                              <br></br> 
-                               {HarvestItems.notes} </IonLabel>  
-                 </a>
-         
+      <IonLabel> {HarvestItems.partitionLandDetail.landDetail.name}<br></br> {HarvestItems.partitionLandDetail.landDirection} <br></br> {HarvestItems.cost} </IonLabel>      
         <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditHarvestClick(HarvestItems.id)}></img>      
 
       <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeleteHarvestClick(HarvestItems.id)} ></img>

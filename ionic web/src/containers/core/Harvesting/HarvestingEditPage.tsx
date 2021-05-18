@@ -34,7 +34,6 @@ interface IHarvestLandAddEditState {
   partitionList: any;
   isSubmitting: boolean;
   errors: any;
-  viewCheck:any;
 }
 
 class HarvestingEditPage extends React.Component<IHarvestAddEditProps, IHarvestLandAddEditState> {
@@ -49,16 +48,13 @@ class HarvestingEditPage extends React.Component<IHarvestAddEditProps, IHarvestL
       selectedLand: {},
       partitionList: [],
       isSubmitting: false,
-      errors: {},
-      viewCheck:this.viewInput
+      errors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleOnsubmit = this.handleOnsubmit.bind(this);
   }
-  viewInput={
-    isView:false
-  };
+
 
   inputInit = {
   // harvestData: {},
@@ -74,19 +70,13 @@ class HarvestingEditPage extends React.Component<IHarvestAddEditProps, IHarvestL
 
   
   componentWillMount() {
-    let words;
     var id = this.props.match.params.id;
-    words = id.split('.');
-    var ID=words[0];
-    var viewType=words[1];
-    if(viewType==="View"){
-      this.state.viewCheck.isView=true;
-    } if (this.props.LandDetailData.Landitems) {
+    if (this.props.LandDetailData.Landitems) {
       if (this.props.LandDetailData.Landitems.length === 0) {
         this.props.getLandDetails();
       }
     }
-    if (ID && ID !== null && ID !== 0 && ID !== "0") {
+    if (id && id !== null && id !== 0 && id !== "0") {
       this.setState({ isEdit: true });
     }
     else {
@@ -214,16 +204,12 @@ class HarvestingEditPage extends React.Component<IHarvestAddEditProps, IHarvestL
       <IonContent className=".reg-login">
         <div className="bg-image">
           <div className="AEreg-head">
-            {!this.state.isEdit && !this.state.viewCheck.isView&&(
+            {!this.state.isEdit && (
               <div>  Add Harvesting </div>
             )}
-            {this.state.isEdit &&!this.state.viewCheck.isView&& (
+            {this.state.isEdit && (
               <div>  Edit Harvesting </div>
             )}
-             {this.state.viewCheck.isView&&(
-                <div>  View Harvesting </div>
-              )}
-
           </div>
           <IonLoading
                 isOpen={this.state.isFormSubmited}
@@ -235,36 +221,36 @@ class HarvestingEditPage extends React.Component<IHarvestAddEditProps, IHarvestL
                   <IonText className="reg-fields">
                     <label> Land Name </label>
                     {this.props.LandDetailData.Landitems && (
-                      <IonSelect disabled={this.state.viewCheck.isView}  className="dropclr" onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
+                      <IonSelect className="dropclr" onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
                         {this.props.LandDetailData.Landitems.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.name} selected={data.id == this.state.input.landDetailId} > {data.name} </IonSelectOption>) })}
                       </IonSelect>)}
                     {this.state.errors.landDetailId && (
                       <p className="help is-danger">{this.state.errors.landDetailId}</p>
                     )}
                     <label> Partition Land Name </label>
-                    <IonSelect disabled={this.state.viewCheck.isView}  className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
+                    <IonSelect className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
                       {this.state.partitionList.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={data.id == this.state.input.partitionLandDetailId} > {data.landDirection} </IonSelectOption>) })}
                     </IonSelect>
                     {this.state.errors.landDetailId && (
                       <p className="help is-danger">{this.state.errors.landDetailId}</p>
                     )}
-                    <IonRow> Date </IonRow><IonRow> <DatePicker readOnly={this.state.viewCheck.isView}  selected={moment(this.state.input.date).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>
+                    <IonRow> Date </IonRow><IonRow> <DatePicker selected={moment(this.state.input.date).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>
                     {this.state.errors.date && (
                       <p className="help is-danger">{this.state.errors.date}</p>
                     )}
-                    Cost <input readOnly={this.state.viewCheck.isView} type="text" name="cost" className="input-text" onChange={this.handleChange} value={this.state.input.cost} />
+                    Cost <input type="text" name="cost" className="input-text" onChange={this.handleChange} value={this.state.input.cost} />
                     {this.state.errors.cost && (
                       <p className="help is-danger">{this.state.errors.cost}</p>
                     )}
-                    NO of Labours <input readOnly={this.state.viewCheck.isView} type="text" name="noOfLabours" className="input-text" onChange={this.handleChange} value={this.state.input.noOfLabours} />
+                    NO of Labours <input type="text" name="noOfLabours" className="input-text" onChange={this.handleChange} value={this.state.input.noOfLabours} />
                     {this.state.errors.noOfLabours && (
                       <p className="help is-danger">{this.state.errors.noOfLabours}</p>
                     )}
-                    Labour Cost <input readOnly={this.state.viewCheck.isView} type="text" name="labourCost" className="input-text" onChange={this.handleChange} value={this.state.input.labourCost} />
+                    Labour Cost <input type="text" name="labourCost" className="input-text" onChange={this.handleChange} value={this.state.input.labourCost} />
                     {this.state.errors.labourCost && (
                       <p className="help is-danger">{this.state.errors.labourCost}</p>
                     )}
-                     Notes <textarea readOnly={this.state.viewCheck.isView} name="notes" className="input-text" onChange={this.handleChange} value={this.state.input.notes} />
+                     Notes <textarea name="notes" className="input-text" onChange={this.handleChange} value={this.state.input.notes} />
                     {this.state.errors.notes && (
                       <p className="help is-danger">{this.state.errors.notes}</p>
                     )}
@@ -275,8 +261,8 @@ class HarvestingEditPage extends React.Component<IHarvestAddEditProps, IHarvestL
         </div>
       </IonContent>
       <footer className="footcolor" >
-      {!this.state.viewCheck.isView&& ( <Footer /> )}
-         {!this.state.viewCheck.isView&& ( <button className="ok-btn" onClick={this.handleOnsubmit}> SAVE </button>)}
+      <Footer /> 
+          <button className="ok-btn" onClick={this.handleOnsubmit}> SAVE </button>
       </footer>
     </IonPage>
   );

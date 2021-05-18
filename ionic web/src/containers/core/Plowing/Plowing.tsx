@@ -10,8 +10,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import Confirm from '../../common/Confirm';
 import { getPartitionLandList } from '../../../store/actions/PartitionLand';
 import { getLandDetailList } from '../../../store/actions/LandDetail';
-import Moment from 'react-moment';
-import 'moment-timezone';
+
 interface Props extends RouteComponentProps { }
 
 interface IPlowingProps {
@@ -35,13 +34,9 @@ const Plowing: React.SFC<IPlowingProps & RouteComponentProps> = ({ dispatch, plo
   const [Plowing, setPlowing] = useState();
   const onEditPlowingClick = (id:any) => {
     setPlowing(id);
-    history.push("/plowingEditPage/" + id+".Edit");
+    history.push("/plowingEditPage/" + id);
   }
 
-  const onViewPlowingClick = (id:any) => {
-    setPlowing(id);
-    history.push("/plowingEditPage/" + id+".View");
-  }
   const [showAlert1, setShowAlert1] = useState(false);
   const [weedRemoveDel, setWeedRemoveDel] = useState();
   const [showConfirm, setShowConfirm] = useState(false);
@@ -70,13 +65,7 @@ const Plowing: React.SFC<IPlowingProps & RouteComponentProps> = ({ dispatch, plo
   const PlowingList: any = [];
   PlowingItems.forEach((PlowingItems: any) => PlowingList.push(
     <IonItem key={PlowingItems.id}>
-         
-      <a className="view-icon" onClick={() => onViewPlowingClick(PlowingItems.id)}
-                 target="_blank" ><IonLabel>                   
-                   <Moment format="DD-MM-YYYY">{PlowingItems.date}</Moment><br></br>
-                   {PlowingItems.typeofPlowing}<br></br>
-                   {PlowingItems.notes} </IonLabel> </a>        
-     
+      <IonLabel> {PlowingItems.typeofPlowing} </IonLabel>     
         <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditPlowingClick(PlowingItems.id)}></img>      
       <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeletePlowingClick(PlowingItems.id)} ></img>
     </IonItem>));

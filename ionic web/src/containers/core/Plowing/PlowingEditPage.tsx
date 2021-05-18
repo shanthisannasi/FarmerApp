@@ -31,7 +31,6 @@ interface IPlowingAddEditState {
   partitionList: any;
   isSubmitting: boolean;
   errors: any;
-  viewCheck:any; 
 }
 
 class PlowingEditPage extends React.Component<IPlowingAddEditProps, IPlowingAddEditState> {
@@ -45,16 +44,13 @@ class PlowingEditPage extends React.Component<IPlowingAddEditProps, IPlowingAddE
       selectedLand: {},
       partitionList: [],
       isSubmitting: false,
-      errors: {},
-      viewCheck:this.viewInput
+      errors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleOnsubmit = this.handleOnsubmit.bind(this);
   }
-  viewInput={
-    isView:false
-  };
+
   inputInit = {
     id: 0,
     landDetailId: 0,
@@ -66,14 +62,8 @@ class PlowingEditPage extends React.Component<IPlowingAddEditProps, IPlowingAddE
   };
 
   componentWillMount() {
-    var words;
-    words = (this.props.match.params.id).split('.');
-    var ID=words[0];
-    var viewType=words[1];
-    if(viewType==="View"){
-      this.state.viewCheck.isView=true;
-    }
-    if (ID && ID !== null && ID !== 0 && ID !== "0") {
+    var id = this.props.match.params.id;
+    if (id && id !== null && id !== 0 && id !== "0") {
       //this.props.getPlowingById1(this.props.match.params.id);
       this.setState({ isEdit: true });
     }
@@ -207,16 +197,12 @@ class PlowingEditPage extends React.Component<IPlowingAddEditProps, IPlowingAddE
         <IonContent className=".reg-login">
           <div className="bg-image">
             <div className="AEreg-head">              
-              {!this.state.isEdit &&!this.state.viewCheck.isView&& (
+              {!this.state.isEdit && (
                 <div>  Add Plowing </div>
               )}
-              {this.state.isEdit && !this.state.viewCheck.isView&&(
+              {this.state.isEdit && (
                 <div>  Edit Plowing </div>
               )}
-               {this.state.viewCheck.isView&& (
-                   <div>  VIew Plowing </div>
-                 )}
-                
             </div>
             <IonLoading
                 isOpen={this.state.isFormSubmited}
@@ -229,32 +215,32 @@ class PlowingEditPage extends React.Component<IPlowingAddEditProps, IPlowingAddE
                 <IonCol>
                   <IonText className="reg-fields">
                     <label> Land Name </label>                    
-                      <IonSelect className="dropclr" disabled={this.state.viewCheck.isView} onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
+                      <IonSelect className="dropclr" onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
                         {this.props.LandDetailData.Landitems.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.name} selected={data.id == this.state.input.landDetailId} > {data.name} </IonSelectOption>) })}
                       </IonSelect>
                       {this.state.errors.landDetailId && (
                         <p className="help is-danger">{this.state.errors.landDetailId}</p>
                       )}
                     <label> Partition Land Name </label>                    
-                      <IonSelect disabled={this.state.viewCheck.isView} className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
+                      <IonSelect className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
                         {this.state.partitionList.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={data.id == this.state.input.partitionLandDetailId} > {data.landDirection} </IonSelectOption>) })}
                       </IonSelect>
                       {this.state.errors.partitionLandDetailId && (
                         <p className="help is-danger">{this.state.errors.partitionLandDetailId}</p>
                       )}
-                      <IonRow> Date </IonRow><IonRow> <DatePicker readOnly={this.state.viewCheck.isView} selected={moment(this.state.input.plowingDate).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>
+                      <IonRow> Date </IonRow><IonRow> <DatePicker selected={moment(this.state.input.plowingDate).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>
                       {this.state.errors.plowingDate && (
                         <p className="help is-danger">{this.state.errors.plowingDate}</p>
                       )}
-                      Type of Plowing <input readOnly={this.state.viewCheck.isView} type="text" name="typeofPlowing" className="input-text" onChange={this.handleChange} value={this.state.input.typeofPlowing} required />
+                      Type of Plowing <input type="text" name="typeofPlowing" className="input-text" onChange={this.handleChange} value={this.state.input.typeofPlowing} required />
                       {this.state.errors.typeofPlowing && (
                         <p className="help is-danger">{this.state.errors.typeofPlowing}</p>
                       )}
-                      Plowing Expenses <input readOnly={this.state.viewCheck.isView} type="text" name="plowingExp" className="input-text" onChange={this.handleChange} value={this.state.input.plowingExp} required />
+                      Plowing Expenses <input type="text" name="plowingExp" className="input-text" onChange={this.handleChange} value={this.state.input.plowingExp} required />
                       {this.state.errors.plowingExp && (
                         <p className="help is-danger">{this.state.errors.plowingExp}</p>
                       )}
-                       Notes <textarea readOnly={this.state.viewCheck.isView} name="notes" className="input-text" onChange={this.handleChange} value={this.state.input.notes} />
+                       Notes <textarea name="notes" className="input-text" onChange={this.handleChange} value={this.state.input.notes} />
                     {this.state.errors.notes && (
                       <p className="help is-danger">{this.state.errors.notes}</p>
                     )}
@@ -266,8 +252,8 @@ class PlowingEditPage extends React.Component<IPlowingAddEditProps, IPlowingAddE
           </div>
         </IonContent>
         <footer className="footcolor" >
-        {!this.state.viewCheck.isView&& (<Footer /> )}      
-        {!this.state.viewCheck.isView&& (   <button className="ok-btn" onClick={this.handleOnsubmit}>SAVE </button>      )}    
+        <Footer />
+            <button className="ok-btn" onClick={this.handleOnsubmit}>SAVE </button>          
         </footer>
       </IonPage>
     );

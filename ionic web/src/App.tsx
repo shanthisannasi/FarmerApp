@@ -59,6 +59,7 @@ import { AppFrame } from './containers/common/AppFrame/intex';
 import ViewReport from './containers/core/Report/ViewReport';
 import ViewAll from './containers/core/Report/ViewAll';
 import Reportcopy from './containers/core/Report/Reportcopy';
+
 interface IAppProps {
 }
 interface IAppState {
@@ -94,6 +95,7 @@ if (loggedInString && loggedInString!=="" && loggedInString!==null) {
                   <Route exact path="/" render={() => <Redirect to="/login" />} />
           
             <Route path="/home" component={Homes} exact={true} /> 
+            
             <Route path="/manageLands" component={ManageLands} exact={true} />
             <Route path="/landDetails" component={LandDetails} exact={true} />
             <Route path="/landDetailEditPage/:id" component={LandDetailEditPage} exact={true} />

@@ -63,8 +63,6 @@ export const LandDetails: React.SFC<ILandDetailProps> = ({ dispatch, LandDetailD
     <IonItem key={stateitems.stateName}>
       <IonLabel> {stateitems.stateName} </IonLabel>
     </IonItem>));
-    const img = new Image();
-    
 
   return (
 
@@ -82,7 +80,7 @@ export const LandDetails: React.SFC<ILandDetailProps> = ({ dispatch, LandDetailD
                 <IonText className="reg-fields">
                   <IonItem >
                   <IonLabel>State</IonLabel>
-                     <IonSelect placeholder="Select One" className="dropclr" onIonChange={handleStateChange}>
+                    <IonSelect placeholder="Select One" className="dropclr" onIonChange={handleStateChange}>
                       {stateitems.map((data: any) => { return <IonSelectOption value={data.id} key={data.id} title={data.stateName}> {data.stateName } </IonSelectOption> })}
                   </IonSelect>
                   </IonItem>  
