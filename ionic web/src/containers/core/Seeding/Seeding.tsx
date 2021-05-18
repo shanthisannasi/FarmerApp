@@ -40,7 +40,12 @@ const Seeding: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatch, 
   const [Seed, setSeed] = useState();
   const onEditSeedClick = (id:any) => {
     setSeed(id);
-    history.push("/seedEditPage/" + id);
+    history.push("/seedEditPage/" + id+".Edit");
+  }
+
+  const onViewSeedClick = (id:any) => {
+    setSeed(id);
+    history.push("/seedEditPage/" + id+".View");
   }
 
   const [showAlert1, setShowAlert1] = useState(false);
@@ -72,7 +77,9 @@ const Seeding: React.SFC<IWeedRemoveProps & RouteComponentProps> = ({ dispatch, 
   const SeedList: any = [];
   Seeditems.forEach((Seeditems: any) => SeedList.push(
     <IonItem key={Seeditems.id}>
-      <IonLabel> {Seeditems.seedName} </IonLabel>
+      
+      <a className="view-icon" onClick={() => onViewSeedClick(Seeditems.id)}
+                 target="_blank" ><IonLabel> {Seeditems.seedName} </IonLabel></a>        
      
         <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditSeedClick(Seeditems.id)}></img>
     

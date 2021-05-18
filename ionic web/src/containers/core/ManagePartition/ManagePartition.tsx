@@ -39,7 +39,13 @@ const ManagePartition: React.SFC<IPartitionProps & RouteComponentProps> = ({ dis
   const [deleteProcess, setDeleteProcess] = useState(false);
   const onEditPartitionClick = (id: any) => {
     setPartitionLand(id);
-    history.push("/managePartitionEdit/" + id);
+    history.push("/managePartitionEdit/" + id+".Edit");
+   // dispatch(savePartitionLand(id));
+  }
+
+  const onViewPartitionClick = (id: any) => {
+    setPartitionLand(id);
+    history.push("/managePartitionEdit/" + id+".View");
    // dispatch(savePartitionLand(id));
   }
   const [partInput, setPartrInput] = useState();
@@ -70,7 +76,12 @@ const ManagePartition: React.SFC<IPartitionProps & RouteComponentProps> = ({ dis
   
   PLitems.forEach((PLitems: any) => itemPL.push(
     <IonItem key={PLitems.id}>
-      <IonLabel> {PLitems.landDirection} </IonLabel>         
+      
+      <a className="view-icon" onClick={() => onViewPartitionClick(PLitems.id)}
+                 target="_blank" ><IonLabel> {PLitems.landDetail.name}<br></br>
+                 {PLitems.landDirection}<br></br>
+                 {PLitems.areaSize}<br></br>
+                 {PLitems.notes} </IonLabel>  </a>        
         <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditPartitionClick(PLitems.id)}></img>  
       <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeletePartitionClick(PLitems.id)} ></img>
     </IonItem>));

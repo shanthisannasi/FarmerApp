@@ -31,7 +31,8 @@ interface IPartLandAddEditState {
   isEdit: boolean;
   isSubmitting: boolean;
   selectedLand: any;
-  errors: any;    
+  errors: any; 
+  viewCheck:any;   
 }
 
 class ManagePartitionEditPage extends React.Component<IPartLandAddEditProps,IPartLandAddEditState> {
@@ -44,16 +45,27 @@ class ManagePartitionEditPage extends React.Component<IPartLandAddEditProps,IPar
       isEdit: false,
       selectedLand: {},
       isSubmitting: false,
-      errors: {}
+      errors: {},
+      viewCheck:this.viewInput
     };
-    
+   
     this.handleChange = this.handleChange.bind(this);
     this.handleOnsubmit = this.handleOnsubmit.bind(this);
   }
+  viewInput={
+    isView:false
+  };
   componentWillMount() {
+    var words;
+    words = (this.props.match.params.id).split('.');
+    var ID=words[0];
+    var viewType=words[1];
+    if(viewType==="View"){
+      this.state.viewCheck.isView=true;
+    }
     this.props.getPartitionLandById1(this.props.match.params.id);
-    var id = this.props.match.params.id;
-    if (id && id !== null && id !== 0 && id !== "0") {
+    var ID= this.props.match.params.id;
+    if (ID && ID !== null && ID !== 0 && ID !== "0") {
       this.setState({ isEdit: true });
     }
     else {
@@ -172,12 +184,17 @@ class ManagePartitionEditPage extends React.Component<IPartLandAddEditProps,IPar
         <IonContent className=".reg-login">
           <div className="bg-image">
             <div className="AEreg-head">               
-               {!this.state.isEdit && (
+               {!this.state.isEdit && !this.state.viewCheck.isView&&(
                  <div> Add Partition </div>
                )}
-               {this.state.isEdit && (
+               {this.state.isEdit &&!this.state.viewCheck.isView&& (
                  <div> Edit Partition </div>
                )}
+                {this.state.viewCheck.isView&&(
+                <div>  View Partition </div>
+              )}
+
+               
             </div>     
             <IonLoading
                 isOpen={this.state.isFormSubmited}
@@ -190,24 +207,24 @@ class ManagePartitionEditPage extends React.Component<IPartLandAddEditProps,IPar
                     <IonText className="reg-fields">
                         <label> Land Name </label>
                         {this.props.LandDetailData.Landitems && (
-                          <IonSelect className="dropclr" onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
+                          <IonSelect disabled={this.state.viewCheck.isView} className="dropclr" onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
                             {this.props.LandDetailData.Landitems.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.name} selected={data.id == this.state.input.landDetailId} > {data.name} </IonSelectOption>) })}
                           </IonSelect>)}
                         {this.state.errors.landDetailId && (
                           <p className="help is-danger">{this.state.errors.landDetailId}</p>
                         )}
-                          Land Direction<input type="text" className="input-text" name="landDirection" onChange={this.handleChange} value={this.state.input.landDirection} />
+                          Land Direction<input readOnly={this.state.viewCheck.isView} type="text" className="input-text" name="landDirection" onChange={this.handleChange} value={this.state.input.landDirection} />
                         {this.state.errors.landDirection && (
                           <p className="help is-danger">{this.state.errors.landDirection}</p>
                         )}
                       
                         
-                           Area Size (By Acre) <input type="text" className="input-text"  name="areaSize" onChange={this.handleChange} value={this.state.input.areaSize}  /> 
+                           Area Size (By Acre) <input readOnly={this.state.viewCheck.isView} type="text" className="input-text"  name="areaSize" onChange={this.handleChange} value={this.state.input.areaSize}  /> 
                         {this.state.errors.areaSize && (
                           <p className="help is-danger">{this.state.errors.areaSize}</p>
                          )}
 
-                          Notes <textarea  className="input-text"  name="notes" onChange={this.handleChange} value={this.state.input.notes}  /> 
+                          Notes <textarea  readOnly={this.state.viewCheck.isView} className="input-text"  name="notes" onChange={this.handleChange} value={this.state.input.notes}  /> 
                         {this.state.errors.notes && (
                           <p className="help is-danger">{this.state.errors.notes}</p>
                          )}
@@ -218,8 +235,8 @@ class ManagePartitionEditPage extends React.Component<IPartLandAddEditProps,IPar
           </div>
         </IonContent>
         <footer className="footcolor" >
-        <Footer />
-            <button className="ok-btn" onClick={this.handleOnsubmit}>SAVE </button>
+        {!this.state.viewCheck.isView&& (<Footer /> )}      
+        {!this.state.viewCheck.isView&& ( <button   className="ok-btn" onClick={this.handleOnsubmit}>SAVE </button>)}
         </footer>
       </IonPage>
     );
