@@ -45,8 +45,15 @@ const ManageLand: React.FunctionComponent<ILandDetailProps & RouteComponentProps
   const [Land, setLand] = useState();
   const onEditLandClick = (id: any) => {   
     setLand(id);   
-    history.push("/landDetailEditPage/" + id);
+    history.push("/landDetailEditPage/" + id+".Edit");
   }
+
+  const onViewLandClick = (id: any) => {   
+    setLand(id);   
+    history.push("/landDetailEditPage/" + id+".View");
+  }
+
+
   const [showAlert1, setShowAlert1] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [LandInput, setLandInput] = useState();
@@ -78,10 +85,22 @@ const ManageLand: React.FunctionComponent<ILandDetailProps & RouteComponentProps
   
   const Landitems: any = (LandData || []);
   const itemLand: any = [];
-
+  const img = new Image();
+  //img.src = 'http://www.google.com/intl/en_ALL/images/logo.gif';
+  //img.onload = function() {
+    //alert(img.clientWidth + 'x' + img.clientHeight);
+    //console.log("img.clientWidth"+img.width+"img.clientHeight"+img.height+"imageObject.width");
+  //}
+  
   Landitems.forEach((Landitems: any) => itemLand.push(
     <IonItem key={Landitems.id}>
-      <IonLabel> {Landitems.name} </IonLabel>     
+     
+      <a  onClick={() => onViewLandClick(Landitems.id)}>
+         <IonLabel> {Landitems.name} <br></br>
+                    {Landitems.pattaNumber}<br></br>
+                    {Landitems.city}<br></br>
+                    {Landitems.notes} </IonLabel>  
+         </a>
       <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditLandClick(Landitems.id)}></img>
       <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeleteLnadClick(Landitems.id)} ></img>
     </IonItem>));
@@ -93,6 +112,7 @@ const ManageLand: React.FunctionComponent<ILandDetailProps & RouteComponentProps
         <div className="bg-image">
           <div className="reg-head">
             <div className="MLand-Lbl"> Manage Land </div>
+                 
               <a onClick={() =>
               {
                 history.push("/landDetailEditPage/" + 0);              

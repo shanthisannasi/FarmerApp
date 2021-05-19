@@ -29,7 +29,11 @@ const PestControl: React.SFC<IPestControlProps & RouteComponentProps> = ({ dispa
   const [PestControl, setPestControl] = useState();
   const onEditClick = (id:any) => {
     setPestControl(id);
-    history.push("/pestControlEditPage/" + id);
+    history.push("/pestControlEditPage/" + id+".Edit");
+  }
+  const onViewClick = (id:any) => {
+    setPestControl(id);
+    history.push("/pestControlEditPage/" + id+".View");
   }
   const [showAlert1, setShowAlert1] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -60,7 +64,10 @@ const PestControl: React.SFC<IPestControlProps & RouteComponentProps> = ({ dispa
   const PetsControlList: any = [];
   PetsControlItems.forEach((PetsControlItems: any) => PetsControlList.push(
     <IonItem key={PetsControlItems.id}>
-      <IonLabel> {PetsControlItems.nameofthePestSide} </IonLabel>
+      
+      <a className="view-icon" onClick={() => onViewClick(PetsControlItems.id)}
+                 target="_blank" ><IonLabel> {PetsControlItems.nameofthePestSide} </IonLabel></a>        
+    
         <img src="assets/Edit.png" height="15" width="15" className="edit-icon" onClick={() => onEditClick(PetsControlItems.id)}></img>
       <img src="assets/Delete.png" height="23" width="23" className="del-icon" onClick={() => onDeleteClick(PetsControlItems.id)} ></img>
     </IonItem>));

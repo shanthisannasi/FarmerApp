@@ -31,6 +31,7 @@ interface IPestControlAddEditState {
   partitionList: any;
   isSubmitting: boolean;
   errors: any;
+  viewCheck:any;   
 }
 
 class PestControlEditPage extends React.Component<IPestControlAddEditProps, IPestControlAddEditState> {
@@ -43,13 +44,16 @@ class PestControlEditPage extends React.Component<IPestControlAddEditProps, IPes
       selectedLand: {},
       partitionList: [],
       isSubmitting: false,
-      errors: {}
+      errors: {},
+      viewCheck:this.viewInput
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleOnsubmit = this.handleOnsubmit.bind(this);
   }
-
+  viewInput={
+    isView:false
+  };
   inputInit = {
   id: 0,
   landDetailId: 0,
@@ -62,9 +66,16 @@ class PestControlEditPage extends React.Component<IPestControlAddEditProps, IPes
   pestControlDate: new Date(),
 };
 
-  componentWillMount() {
-    var id = this.props.match.params.id;
-    if (id && id !== null && id !== 0 && id !== "0") {      
+  componentWillMount() { 
+    var words;
+    words = (this.props.match.params.id).split('.');
+    var ID=words[0];
+    var viewType=words[1];
+    if(viewType==="View"){
+      this.state.viewCheck.isView=true;
+    }
+   
+    if (ID && ID !== null && ID !== 0 && ID !== "0") {      
       this.setState({ isEdit: true });
     }
     else {
@@ -194,12 +205,17 @@ class PestControlEditPage extends React.Component<IPestControlAddEditProps, IPes
         <IonContent className=".reg-login">
           <div className="bg-image">
             <div className="AEreg-head">                 
-                 {!this.state.isEdit && (
+                 {!this.state.isEdit &&!this.state.viewCheck.isView&& (
                    <div>  Add Pest Control </div>
                  )}
-                 {this.state.isEdit && (
+                 {this.state.isEdit &&!this.state.viewCheck.isView&& (
                    <div>  Edit Pest Control </div>
                  )}
+                 
+                 {this.state.viewCheck.isView&& (
+                   <div>  View Pest Control </div>
+                 )}
+                
                </div>
                <IonLoading
                 isOpen={this.state.isFormSubmited}
@@ -212,40 +228,40 @@ class PestControlEditPage extends React.Component<IPestControlAddEditProps, IPes
                      <IonText className="reg-fields">
                        <label> Land Name </label>
                          {this.props.LandDetailData.Landitems && (
-                           <IonSelect className="dropclr" onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
+                           <IonSelect className="dropclr" disabled={this.state.viewCheck.isView} onIonChange={this.handleLandChange} value={this.state.input.landDetailId}>
                              {this.props.LandDetailData.Landitems.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.name} selected={data.id == this.state.input.landDetailId} > {data.name} </IonSelectOption>) })}
                            </IonSelect>)}
                          {this.state.errors.landDetailId && (
                            <p className="help is-danger">{this.state.errors.landDetailId}</p>
                          )}
                        <label> Partition Land Name </label>
-                         <IonSelect className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
+                         <IonSelect disabled={this.state.viewCheck.isView} className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
                            {this.state.partitionList.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={data.id == this.state.input.partitionLandDetailId} > {data.landDirection} </IonSelectOption>) })}
                            </IonSelect>
                          {this.state.errors.landDetailId && (
                            <p className="help is-danger">{this.state.errors.landDetailId}</p>
                          )}
-                         <IonRow> Date </IonRow><IonRow> <DatePicker selected={moment(this.state.input.pestControlDate).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>                     
+                         <IonRow> Date </IonRow><IonRow> <DatePicker readOnly={this.state.viewCheck.isView} selected={moment(this.state.input.pestControlDate).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>                     
                          {this.state.errors.pestControlDate && (
                            <p className="help is-danger">{this.state.errors.pestControlDate}</p>
                          )}
-                         Name of the PestSide Name<input type="text" name="nameofthePestSide" className="input-text" onChange={this.handleChange} value={this.state.input.nameofthePestSide} required />
+                         Name of the PestSide Name<input readOnly={this.state.viewCheck.isView} type="text" name="nameofthePestSide" className="input-text" onChange={this.handleChange} value={this.state.input.nameofthePestSide} required />
                          {this.state.errors.nameofthePestSide && (
                            <p className="help is-danger">{this.state.errors.nameofthePestSide}</p>
                          )}
-                         Cost <input type="text" name="cost" className="input-text" onChange={this.handleChange} value={this.state.input.cost} required />
+                         Cost <input readOnly={this.state.viewCheck.isView} type="text" name="cost" className="input-text" onChange={this.handleChange} value={this.state.input.cost} required />
                          {this.state.errors.cost && (
                            <p className="help is-danger">{this.state.errors.cost}</p>
                          )}
-                         Purpose <input type="text" name="purpose" className="input-text" onChange={this.handleChange} value={this.state.input.purpose} required />
+                         Purpose <input readOnly={this.state.viewCheck.isView} type="text" name="purpose" className="input-text" onChange={this.handleChange} value={this.state.input.purpose} required />
                          {this.state.errors.purpose && (
                            <p className="help is-danger">{this.state.errors.purpose}</p>
                          )}
-                         Labour Cost <input type="text" name="labourCost" className="input-text" onChange={this.handleChange} value={this.state.input.labourCost} required />
+                         Labour Cost <input readOnly={this.state.viewCheck.isView} type="text" name="labourCost" className="input-text" onChange={this.handleChange} value={this.state.input.labourCost} required />
                          {this.state.errors.labourCost && (
                            <p className="help is-danger">{this.state.errors.labourCost}</p>
                          )}
-                         Notes <textarea name="notes" className="input-text" onChange={this.handleChange} value={this.state.input.notes} />
+                         Notes <textarea readOnly={this.state.viewCheck.isView} name="notes" className="input-text" onChange={this.handleChange} value={this.state.input.notes} />
                     {this.state.errors.notes && (
                       <p className="help is-danger">{this.state.errors.notes}</p>
                     )}
@@ -257,8 +273,8 @@ class PestControlEditPage extends React.Component<IPestControlAddEditProps, IPes
           </div>
         </IonContent>
         <footer className="footcolor" >
-        <Footer />
-               <button className="ok-btn" onClick={this.handleOnsubmit}> SAVE </button>      
+        {!this.state.viewCheck.isView&& (<Footer /> )}      
+        {!this.state.viewCheck.isView&& (  <button className="ok-btn" onClick={this.handleOnsubmit}> SAVE </button>     )} 
         </footer>
       </IonPage>
     );
