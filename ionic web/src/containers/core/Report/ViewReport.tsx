@@ -89,15 +89,24 @@ class ViewReport extends React.Component<IViewReportProps, IViewReportState> {
                             <th>Inc</th>
                             <th>Exp</th>
                           </tr>
+        
                           { this.state.ViewReportdata && this.state.ViewReportdata.map((report : any, i : any) => 
                              
-                                <tr>                                 
-                                  <td>{report.partition}</td>
-                                  <td>{report.purpose}</td>
-                                  <td>{report.income}</td>
-                                  <td>{report.expense}</td>                                  
-                                </tr> 
-                            )
+                              report.purpose==="Sale"?(
+                             <tr>                                 
+                             <td>{report.partition}</td>
+                             <td>{report.purpose}</td>
+                             <td>{report.expense}</td>
+                             <td>0</td>                                  
+                            </tr>)
+                            :
+                            (<tr>                                 
+                             <td>{report.partition}</td>
+                             <td>{report.purpose}</td>
+                             <td>{report.income}</td>
+                             <td>{report.expense}</td>                                  
+                            </tr>)
+                              )
                           }
                         </table>
                       </IonGrid>
@@ -105,7 +114,6 @@ class ViewReport extends React.Component<IViewReportProps, IViewReportState> {
                   </IonCol>
                 </IonRow>
               </form>
-          
           </div>
         </IonContent>
        </IonPage>

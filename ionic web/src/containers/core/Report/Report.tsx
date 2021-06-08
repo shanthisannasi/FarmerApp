@@ -38,6 +38,7 @@ const Report: React.SFC<IReportProps & RouteComponentProps> = ({ dispatch, LandD
 
   if (LandDetailData.Landitems.length > 0 && LandData.length === 0) {
     setLandData(LandDetailData.Landitems);
+    
   }
 
   const Landitems: any = (LandData || []);
