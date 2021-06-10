@@ -10,26 +10,26 @@ function checkIsNullorEmpty(value: any) {
 export const validateLandDetails = (values: any) => {
   let errors: any = {};
   if (checkIsNullorEmpty(values.StateId)) {
-    errors.StateId = 'Please selecte the state';
+    errors.StateId = 'Please Select the State';
   }
   if (checkIsNullorEmpty(values.city)) {
-    errors.city = 'Please fill the value of city ';
+    errors.city = 'Please Fill the Value of City ';
   }
 
   if (checkIsNullorEmpty(values.village)) {
-    errors.village = 'Please fill the value of village';
+    errors.village = 'Please Fill the Value of Village';
   }
 
   if (checkIsNullorEmpty(values.pattaNumber)) {
-    errors.pattaNumber = 'Please fill the value of pattaNumber';
+    errors.pattaNumber = 'Please Fill the Value of PattaNumber';
   }
 
   if (checkIsNullorEmpty(values.areaSize)) {
-    errors.areaSize = 'Please fill the value of areaSize';
+    errors.areaSize = 'Please Fill the Value of AreaSize';
   }
 
   if (checkIsNullorEmpty(values.name)) {
-    errors.name = 'Please fill the value of name';
+    errors.name = 'Please Fill the Value of LandName';
   }
   //else if (!/\S+@\S+\.\S+/.test(values.email)) {
   //  errors.email = 'Email address is invalid';
@@ -40,15 +40,15 @@ export const validateLandDetails = (values: any) => {
 export const validatePartiation = (values: any) => {
   let errors: any = {};
   if (checkIsNullorEmpty(values.landDetailId)) {
-    errors.landDetailId = 'Please selecte the land';
+    errors.landDetailId = 'Please Select the LandName';
   }  
 
   if (checkIsNullorEmpty(values.landDirection)) {
-    errors.landDirection = 'Please fill the value of landDirection';
+    errors.landDirection = 'Please Fill the Value of LandDirection';
   }
 
   if (checkIsNullorEmpty(values.areaSize)) {
-    errors.areaSize = 'Please fill the value of areaSize';
+    errors.areaSize = 'Please Fill the Value of AreaSize';
   }
   return errors;
 };
@@ -57,21 +57,21 @@ export const validatePartiation = (values: any) => {
 export const validatePlowingDetails = (values: any) => {
   let errors: any = {};
   if (checkIsNullorEmpty(values.landDetailId)) {
-    errors.landDetailId = 'Please selecte the land';
+    errors.landDetailId = 'Please Select the LandName';
   }
   if (checkIsNullorEmpty(values.partitionLandDetailId)) {
-    errors.partitionLandDetailId = 'Please selecte the partiation';
+    errors.partitionLandDetailId = 'Please Select the Partition';
   }
   if (checkIsNullorEmpty(values.plowingDate)) {
-    errors.city = 'Please fill the value of plowingDate ';
+    errors.city = 'Please Fill the Value of PlowingDate ';
   }
 
   if (checkIsNullorEmpty(values.typeofPlowing)) {
-    errors.village = 'Please fill the value of typeofPlowing';
+    errors.village = 'Please Fill the Type of Plowing';
   }
 
   if (checkIsNullorEmpty(values.plowingExp)) {
-    errors.pattaNumber = 'Please fill the value of plowingExp';
+    errors.pattaNumber = 'Please Fill the Value of PlowingExpenses';
   }
   return errors;
 };
@@ -79,27 +79,27 @@ export const validatePlowingDetails = (values: any) => {
 export const validatePestControl = (values: any) => {
   let errors: any = {};
   if (checkIsNullorEmpty(values.landDetailId)) {
-    errors.landDetailId = 'Please selecte the land';
+    errors.landDetailId = 'Please Select the LandName';
   }
   if (checkIsNullorEmpty(values.partitionLandDetailId)) {
-    errors.partitionLandDetailId = 'Please selecte the partiation';
+    errors.partitionLandDetailId = 'Please Select the Partition';
   }
   if (checkIsNullorEmpty(values.pestControlDate)) {
-    errors.pestControlDate = 'Please fill the value of pestControlDate ';
+    errors.pestControlDate = 'Please Fill the Value of PestControlDate ';
   }
   if (checkIsNullorEmpty(values.nameofthePestSide)) {
-    errors.nameofthePestSide = 'Please fill the value of nameofthePestSide ';
+    errors.nameofthePestSide = 'Please Fill the Name of the PestCide ';
   }
   if (checkIsNullorEmpty(values.cost)) {
-    errors.cost = 'Please fill the value of Cost ';
+    errors.cost = 'Please Fill the Value of Cost ';
   }
 
   if (checkIsNullorEmpty(values.purpose)) {
-    errors.purpose = 'Please fill the value of purpose';
+    errors.purpose = 'Please Fill the Value of Purpose';
   }
 
   if (checkIsNullorEmpty(values.labourCost)) {
-    errors.labourCost = 'Please fill the value of labourCost';
+    errors.labourCost = 'Please Fill the Value of LabourCost';
   }
   return errors;
 };
@@ -107,22 +107,22 @@ export const validatePestControl = (values: any) => {
 export const validateHarvesting = (values: any) => {
   let errors: any = {};
   if (checkIsNullorEmpty(values.landDetailId)) {
-    errors.landDetailId = 'Please selecte the land';
+    errors.landDetailId = 'Please Select the LandName';
   }
   if (checkIsNullorEmpty(values.partitionLandDetailId)) {
-    errors.partitionLandDetailId = 'Please selecte the partiation';
+    errors.partitionLandDetailId = 'Please Select the Partition';
   }
   if (checkIsNullorEmpty(values.date)) {
-    errors.date = 'Please fill the value of date ';
+    errors.date = 'Please Fill the Value of Date ';
   }  
   if (checkIsNullorEmpty(values.cost)) {
-    errors.cost = 'Please fill the value of Cost ';
+    errors.cost = 'Please Fill the Value of Cost ';
   }
   if (checkIsNullorEmpty(values.noOfLabours)) {
-    errors.noOfLabours = 'Please fill the value of number of Labours';
+    errors.noOfLabours = 'Please Fill the Number of Labours';
   }
   if (checkIsNullorEmpty(values.labourCost)) {
-    errors.labourCost = 'Please fill the value of labourCost';
+    errors.labourCost = 'Please Fill the Value of LabourCost';
   }
   return errors;
 };
@@ -131,25 +131,25 @@ export const validateHarvesting = (values: any) => {
 export const validateSale = (values: any) => {
   let errors: any = {};
   if (checkIsNullorEmpty(values.landDetailId)) {
-    errors.landDetailId = 'Please selecte the land';
+    errors.landDetailId = 'Please Select the LandName';
   }
   if (checkIsNullorEmpty(values.partitionLandDetailId)) {
-    errors.partitionLandDetailId = 'Please selecte the partiation';
+    errors.partitionLandDetailId = 'Please Select the Partition';
   }
   if (checkIsNullorEmpty(values.quantity)) {
-    errors.quantity = 'Please selecte the quantity';
+    errors.quantity = 'Please Select the Quantity';
   }
   if (checkIsNullorEmpty(values.saleDate)) {
-    errors.saleDate = 'Please fill the value of saleDate ';
+    errors.saleDate = 'Please Fill the Value of SaleDate ';
   }
   if (checkIsNullorEmpty(values.price)) {
-    errors.price = 'Please fill the value of price ';
+    errors.price = 'Please Fill the Value of Price ';
   }
   if (checkIsNullorEmpty(values.buyerName)) {
-    errors.buyerName = 'Please fill the value of buyer Name';
+    errors.buyerName = 'Please Fill the Value of Buyer Name';
   }
   if (checkIsNullorEmpty(values.buyerMobileNumber)) {
-    errors.buyerMobileNumber = 'Please fill the value of buyerMobileNumber';
+    errors.buyerMobileNumber = 'Please Fill the Value of Buyer Mobile Number';
   }
   return errors;
 };
@@ -158,28 +158,28 @@ export const validateSale = (values: any) => {
 export const validateSeeding = (values: any) => {
   let errors: any = {};
   if (checkIsNullorEmpty(values.landDetailId)) {
-    errors.landDetailId = 'Please selecte the land';
+    errors.landDetailId = 'Please Select the LandName';
   }
   if (checkIsNullorEmpty(values.partitionLandDetailId)) {
-    errors.partitionLandDetailId = 'Please selecte the partiation';
+    errors.partitionLandDetailId = 'Please Select the Partition';
   }
   if (checkIsNullorEmpty(values.quantity)) {
-    errors.quantity = 'Please fill the value of quantity ';
+    errors.quantity = 'Please Fill the Value of Quantity ';
   }
   if (checkIsNullorEmpty(values.seedName)) {
-    errors.seedName = 'Please fill the value of seedName ';
+    errors.seedName = 'Please Fill the Value of SeedName ';
   }
   if (checkIsNullorEmpty(values.date)) {
-    errors.date = 'Please fill the value of date ';
+    errors.date = 'Please Fill the Value of Date ';
   }
   if (checkIsNullorEmpty(values.seedCost)) {
-    errors.seedCost = 'Please fill the value of Cost ';
+    errors.seedCost = 'Please Fill the SeedCost ';
   }
   if (checkIsNullorEmpty(values.noOfLabours)) {
-    errors.noOfLabours = 'Please fill the value of number of Labours';
+    errors.noOfLabours = 'Please Fill the Number of Labours';
   }
   if (checkIsNullorEmpty(values.labourCost)) {
-    errors.labourCost = 'Please fill the value of labourCost';
+    errors.labourCost = 'Please Fill the Value of LabourCost';
   }
   return errors;
 };
@@ -187,22 +187,22 @@ export const validateSeeding = (values: any) => {
 export const validateWeedRemove = (values: any) => {
   let errors: any = {};
   if (checkIsNullorEmpty(values.landDetailId)) {
-    errors.landDetailId = 'Please selecte the land';
+    errors.landDetailId = 'Please Select the LandName';
   }
   if (checkIsNullorEmpty(values.partitionLandDetailId)) {
-    errors.partitionLandDetailId = 'Please selecte the partiation';
+    errors.partitionLandDetailId = 'Please Select the Partition';
   }
   if (checkIsNullorEmpty(values.date)) {
-    errors.date = 'Please fill the value of date ';
+    errors.date = 'Please Fill the Value of Date ';
   }
   if (checkIsNullorEmpty(values.cost)) {
-    errors.cost = 'Please fill the value of Cost ';
+    errors.cost = 'Please Fill the Value of Cost ';
   }
   if (checkIsNullorEmpty(values.noOfLabours)) {
-    errors.noOfLabours = 'Please fill the value of number of Labours';
+    errors.noOfLabours = 'Please Fill the Number of Labours';
   }
   if (checkIsNullorEmpty(values.labourCost)) {
-    errors.labourCost = 'Please fill the value of labourCost';
+    errors.labourCost = 'Please Fill the Value of labourCost';
   }
   return errors;
 };

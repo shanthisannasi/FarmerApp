@@ -151,16 +151,6 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
   facingMode: "user"
 };
   
-/*webcamRef = React.useRef(string);
-
-   capture = React.useCallback(
-    () => {
-      const imageSrc = this.webcamRef.current.getScreenshot();
-    },
-    [this.webcamRef]
-  );
-*/
-
   handleStateChange = (event: any) => {
     const { input } = this.state;
     this.setState({
@@ -169,17 +159,6 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
         ...input,
         StateId: event.target.value }
     });
-  }
-   handleTakePhoto (dataUri: string) {
-    // Do stuff with the photo...
-    console.log(dataUri);
-    console.log('takePhoto');
-  }  
-  handleTakePhotoAnimationDone(dataUri: string){
-    
-  }
-  handleCameraError(error: string){
-    
   }
   
   

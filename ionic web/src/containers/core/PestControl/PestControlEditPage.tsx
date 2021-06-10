@@ -245,7 +245,7 @@ class PestControlEditPage extends React.Component<IPestControlAddEditProps, IPes
                          {this.state.errors.pestControlDate && (
                            <p className="help is-danger">{this.state.errors.pestControlDate}</p>
                          )}
-                         Name of the PestSide Name<input readOnly={this.state.viewCheck.isView} type="text" name="nameofthePestSide" className="input-text" onChange={this.handleChange} value={this.state.input.nameofthePestSide} required />
+                         Name of the PestCide Name<input readOnly={this.state.viewCheck.isView} type="text" name="nameofthePestSide" className="input-text" onChange={this.handleChange} value={this.state.input.nameofthePestSide} required />
                          {this.state.errors.nameofthePestSide && (
                            <p className="help is-danger">{this.state.errors.nameofthePestSide}</p>
                          )}
