@@ -145,11 +145,6 @@ class LandDetailEditPage extends React.Component<ILandAddEditProps & RouteCompon
       });
     }
   }
- videoConstraints = {
-  width: 1280,
-  height: 720,
-  facingMode: "user"
-};
   
   handleStateChange = (event: any) => {
     const { input } = this.state;

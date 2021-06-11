@@ -240,12 +240,12 @@ class SaleEditPage extends React.Component<ISaleAddEditProps, ISaleAddEditState>
                     <IonSelect disabled={this.state.viewCheck.isView} className="dropclr" onIonChange={this.handlePLChange} value={this.state.input.partitionLandDetailId}>
                       {this.state.partitionList.map((data: any) => { return (< IonSelectOption value={data.id} key={data.id} title={data.landDirection} selected={data.id == this.state.input.partitionLandDetailId} > {data.landDirection} </IonSelectOption>) })}
                     </IonSelect>
-                    {this.state.errors.landDetailId && (
-                      <p className="help is-danger">{this.state.errors.landDetailId}</p>
+                    {this.state.errors.partitionLandDetailId && (
+                      <p className="help is-danger">{this.state.errors.partitionLandDetailId}</p>
                     )}
                     <IonRow> Date </IonRow><IonRow> <DatePicker readOnly={this.state.viewCheck.isView} selected={moment(this.state.input.saleDate).toDate()} dateFormat="dd/MM/yyyy" onChange={(date) => this.setDate(date)} className="input-text" /> </IonRow>      
-                    {this.state.errors.landDetailId && (
-                      <p className="help is-danger">{this.state.errors.landDetailId}</p>
+                    {this.state.errors.saleDate && (
+                      <p className="help is-danger">{this.state.errors.saleDate}</p>
                     )}
                       Quantity <input  readOnly={this.state.viewCheck.isView} type="number" name="quantity" className="input-text" onChange={this.handleChange} value={this.state.input.quantity} required />
                     {this.state.errors.quantity && (
